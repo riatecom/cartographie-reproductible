@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="T. Giraud &amp; N. Lambert" />
+  <title>Cartographie Reproductible avec R</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="index_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="index_files/reveal.js-3.3.0.1/css/theme/moon.css" id="theme">
+
+<style type="text/css">
+.reveal section img {
+  background: rgba(255, 255, 255, 0.85);
+}
+</style>
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">Cartographie Reproductible avec R</h1>
+    <h2 class="author">T. Giraud &amp; N. Lambert</h2>
+    <h3 class="date">9 mars 2018 - ENS, Lyon</h3>
+</section>
+
+<section><section id="la-science-est-infaillible-mais-les-savants-se-trompent-toujours.-anatole-france-1889" class="titleslide slide level1"><h1>“La science est infaillible,<br/>mais les savants se trompent toujours.”<br/><small><small>Anatole France, 1889</small></small><br/><img src="img/wrong.jpg" alt="science" style="border:0px"/></h1></section><section id="la-recherche-reproductible" class="slide level2">
+<h2>La recherche reproductible</h2>
+<ul>
+<li><p>Les sciences se reposent sur le principe de reproductibilité.</p></li>
+<li><p>La reproductibilité est un élément permettant d’évaluer la validité des résultats.</p></li>
+<li><p>En sciences sociales, l’utilisation de l’informatique facilite la reproductibilité.</p></li>
+</ul>
+</section><section id="le-spectre-de-la-reproductibilite" class="slide level2">
+<h2>Le spectre de la reproductibilité</h2>
+<p><img src="img/peng-spectrum.jpg" alt="Peng, 2011" style="width: 100%; border:0px"/> <small>Peng, 2011</small> </br></p>
+<p>Accompagner les publications scientifiques des jeux de données et codes sources pour permettre aux collègues de reproduire les résultats.</p>
+</section><section id="cartographie-reproductible" class="slide level2">
+<h2>Cartographie reproductible ?</h2>
+<p>Les cartes, comme les autres production graphiques ou statistiques sont des éléments à part entière des études scientifiques.</p>
+<p><img src="img/maparticle.jpg" alt="Peng, 2011" style="width: 64%; border:0px"/></p>
+</section><section id="cartographie-reproductible-1" class="slide level2">
+<h2>Cartographie reproductible ?</h2>
+<ul>
+<li>Garder une trace cohérente des traitements effectués<br />
+</li>
+<li>Partager ses méthodes<br />
+</li>
+<li>Etre transparent, s’exposer à la critique<br />
+</li>
+<li>Faciliter les mises à jour<br />
+</li>
+<li>Travailler collectivement<br />
+</li>
+<li>Automatiser des taches<br />
+</li>
+<li>Lier fortement l’analyse et la représentation</li>
+</ul>
+</section><section id="cartographie-reproductible-2" class="slide level2" data-transition="convex-in fade-out">
+<h2>Cartographie reproductible ?</h2>
+<p><img src="img/chain1.png" alt="Drawing" style="border:0px"/><br />
+La grande majorité des cartes produites dans un contexte académique sont issues de processus complexes. Elles sont donc souvent produites en utilisant une grande variété de logiciels et de formats.</p>
+</section><section id="cartographie-reproductible-3" class="slide level2" data-transition="fade-in fade-out">
+<h2>Cartographie reproductible ?</h2>
+<p><img src="img/chain2.png" alt="Drawing" style="border:0px"/><br />
+Cette variété de formats et de logiciels rend difficile la reproduction des cartes.</p>
+</section><section id="cartographie-reproductible-4" class="slide level2" data-transition="fade-in convex-out">
+<h2>Cartographie reproductible !</h2>
+<p><img src="img/chain3.png" alt="Drawing" style="width: 100%;border:0px"/> Simplifier les chaines de traitement pour couvrir les différentes étapes de la construction cartographique.</p>
+</section></section>
+<section><section id="les-fonctionnalites-spatiales-de-r" class="titleslide slide level1"><h1>Les fonctionnalités spatiales de R<br/><img src="animation.gif" alt="sf gif" style="border:0px"/></h1></section><section id="les-packages-historiques" class="slide level2">
+<h2>Les packages historiques</h2>
+<ul>
+<li><p><code>rgdal</code> : interface entre R et les librairies GDAL (<a href="http://www.gdal.org/">Geospatial Data Abstraction Library</a>) et <a href="https://github.com/OSGeo/proj.4">PROJ4</a>.</p></li>
+<li><p><code>sp</code> : classes et methodes pour les données spatiales dans R.</p></li>
+<li><p><code>rgeos</code> : accès à la librairie d’opérations spatiales GEOS (<a href="http://trac.osgeo.org/geos/">Geometry Engine - Open Source</a>) : area, perimeter, distances, dissolve, buffer, overlap, union, contains…</p></li>
+</ul>
+</section><section id="le-package-sf" class="slide level2">
+<h2>Le package sf</h2>
+<ul>
+<li><p>Les fonctionnalités de <code>sp</code>, <code>rgeos</code> et <code>rgdal</code> dans un package unique.</p></li>
+<li><p>Manipulation plus aisée, objets plus simples</p></li>
+<li><p>Auteur principal et <em>maintainer</em> : Edzer Pebesma (auteur de <code>sp</code>)</p></li>
+<li><p>Compatible avec les syntaxes <em>pipe</em> et les opérateurs du <code>tidyverse</code>.</p></li>
+</ul>
+</section><section id="le-package-sf-1" class="slide level2">
+<h2>Le package sf</h2>
+<p>Format des objets spatiaux <code>sf</code></p>
+<p><img src="img/sf.png" alt="format sf" style="border:0px"/></p>
+</section><section id="le-package-sf-2" class="slide level2">
+<h2>Le package sf</h2>
+<p>Import de données</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sf)
+mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;data/martinique.shp&quot;</span>)</code></pre></div>
+<pre><code>Reading layer `martinique&#39; from data source `/home/tim/Documents/prz/cartographie-reproductible/data/martinique.shp&#39; using driver `ESRI Shapefile&#39;
+Simple feature collection with 34 features and 23 fields
+geometry type:  POLYGON
+dimension:      XY
+bbox:           xmin: 690574.4 ymin: 1592426 xmax: 736126.5 ymax: 1645660
+epsg (SRID):    32620
+proj4string:    +proj=utm +zone=20 +datum=WGS84 +units=m +no_defs</code></pre>
+</section><section id="le-package-sf-3" class="slide level2">
+<h2>Le package sf</h2>
+<p>Affichage de données</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq))</code></pre></div>
+<p><img src="index_files/figure-revealjs/unnamed-chunk-2-1.png" width="288" /></p>
+</section><section id="le-package-sf-4" class="slide level2">
+<h2>Le package sf</h2>
+<p>Extraire les centroïdes</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtq_c &lt;-<span class="st"> </span><span class="kw">st_centroid</span>(mtq)
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq))
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_c), <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">cex=</span><span class="fl">1.2</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">pch=</span><span class="dv">20</span>)</code></pre></div>
+<p><img src="index_files/figure-revealjs/unnamed-chunk-3-1.png" width="288" /></p>
+</section><section id="le-package-sf-5" class="slide level2">
+<h2>Le package sf</h2>
+<p>Construire une matrice de distances</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat &lt;-<span class="st"> </span><span class="kw">st_distance</span>(<span class="dt">x=</span>mtq_c,<span class="dt">y=</span>mtq_c)
+mat[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</code></pre></div>
+<pre><code>Units: m
+          [,1]     [,2]      [,3]      [,4]      [,5]
+[1,]     0.000 35297.56  3091.501 12131.617 17136.310
+[2,] 35297.557     0.00 38332.602 25518.913 18605.249
+[3,]  3091.501 38332.60     0.000 15094.702 20226.198
+[4,] 12131.617 25518.91 15094.702     0.000  7177.011
+[5,] 17136.310 18605.25 20226.198  7177.011     0.000</code></pre>
+</section><section id="le-package-sf-6" class="slide level2">
+<h2>Le package sf</h2>
+<p>Agréger des polygones</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtq_u &lt;-<span class="st"> </span><span class="kw">st_union</span>(mtq)
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;lightblue&quot;</span>)
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_u), <span class="dt">add=</span>T, <span class="dt">lwd=</span><span class="dv">2</span>, <span class="dt">border =</span> <span class="st">&quot;red&quot;</span>)</code></pre></div>
+<p><img src="index_files/figure-revealjs/unnamed-chunk-5-1.png" width="288" /></p>
+</section><section id="le-package-sf-7" class="slide level2">
+<h2>Le package sf</h2>
+<p>Construire une zone tampon</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtq_b &lt;-<span class="st"> </span><span class="kw">st_buffer</span>(<span class="dt">x =</span> mtq_u, <span class="dt">dist =</span> <span class="dv">5000</span>)
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;lightblue&quot;</span>)
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_u), <span class="dt">add=</span>T, <span class="dt">lwd=</span><span class="dv">2</span>)
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_b), <span class="dt">add=</span>T, <span class="dt">lwd=</span><span class="dv">2</span>, <span class="dt">border =</span> <span class="st">&quot;red&quot;</span>)</code></pre></div>
+<p><img src="index_files/figure-revealjs/unnamed-chunk-6-1.png" width="288" /></p>
+</section><section id="le-package-sf-8" class="slide level2">
+<h2>Le package sf</h2>
+<p>Réaliser une intersection</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">c</span>(<span class="dv">700015</span>,<span class="dv">1624212</span>), <span class="kw">c</span>(<span class="dv">700015</span>,<span class="dv">1641586</span>), <span class="kw">c</span>(<span class="dv">719127</span>,<span class="dv">1641586</span>), <span class="kw">c</span>(<span class="dv">719127</span>,<span class="dv">1624212</span>), <span class="kw">c</span>(<span class="dv">700015</span>,<span class="dv">1624212</span>))
+p &lt;-<span class="st"> </span><span class="kw">st_sf</span>(<span class="kw">st_sfc</span>(<span class="kw">st_polygon</span>(<span class="kw">list</span>(m))), <span class="dt">crs =</span> <span class="kw">st_crs</span>(mtq))
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq))
+<span class="kw">plot</span>(p, <span class="dt">border=</span><span class="st">&quot;red&quot;</span>, <span class="dt">lwd=</span><span class="dv">2</span>, <span class="dt">add=</span>T)</code></pre></div>
+<p><img src="index_files/figure-revealjs/unnamed-chunk-7-1.png" width="288" /></p>
+</section><section id="le-package-sf-9" class="slide level2">
+<h2>Le package sf</h2>
+<p>Réaliser une intersection</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtq_z &lt;-<span class="st"> </span><span class="kw">st_intersection</span>(<span class="dt">x =</span> mtq, <span class="dt">y =</span> p)
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq))
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_z), <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">border=</span><span class="st">&quot;green&quot;</span>, <span class="dt">add=</span>T)</code></pre></div>
+<p><img src="index_files/figure-revealjs/unnamed-chunk-8-1.png" width="288" /></p>
+</section><section id="le-package-sf-10" class="slide level2">
+<h2>Le package sf</h2>
+<p>Construire des polygones de Voronoi <small>google: “st_voronoi R sf” (<a href="https://github.com/r-spatial/sf/issues/474" class="uri">https://github.com/r-spatial/sf/issues/474</a> &amp; <a href="https://stackoverflow.com/questions/45719790/create-voronoi-polygon-with-simple-feature-in-r" class="uri">https://stackoverflow.com/questions/45719790/create-voronoi-polygon-with-simple-feature-in-r</a>) </small></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtq_v &lt;-<span class="st"> </span><span class="kw">st_voronoi</span>(<span class="dt">x =</span> <span class="kw">st_union</span>(mtq_c))
+mtq_v &lt;-<span class="st"> </span><span class="kw">st_intersection</span>(<span class="kw">st_cast</span>(mtq_v), <span class="kw">st_union</span>(mtq))
+mtq_v &lt;-<span class="st"> </span><span class="kw">st_join</span>(<span class="dt">x =</span> <span class="kw">st_sf</span>(mtq_v), <span class="dt">y =</span> mtq_c, <span class="dt">join=</span>st_intersects)
+mtq_v &lt;-<span class="st"> </span><span class="kw">st_cast</span>(mtq_v, <span class="st">&quot;MULTIPOLYGON&quot;</span>)
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_v), <span class="dt">col=</span><span class="st">&#39;lightblue&#39;</span>)</code></pre></div>
+<p><img src="index_files/figure-revealjs/unnamed-chunk-9-1.png" width="288" /></p>
+</section></section>
+<section><section id="le-package-cartography" class="titleslide slide level1" data-background="./img/computerrage.gif"><h1>Le package cartography</h1></section><section id="propsymbolslayer" class="slide level2">
+<h2>propSymbolsLayer()</h2>
+<p><small></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(cartography)
+<span class="kw">library</span>(sf)
+<span class="co"># Load data</span>
+mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="kw">system.file</span>(<span class="st">&quot;shape/martinique.shp&quot;</span>, <span class="dt">package=</span><span class="st">&quot;cartography&quot;</span>))
+<span class="co"># save map</span>
+<span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/map1.png&quot;</span>, <span class="dt">width =</span> <span class="dv">400</span>, <span class="dt">height =</span> <span class="dv">467</span>, <span class="dt">res =</span> <span class="dv">100</span>)
+<span class="co"># ser margins</span>
+<span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))
+<span class="co"># Countries plot</span>
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>,
+     <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)
+<span class="co"># Population plot on proportional symbols</span>
+<span class="kw">propSymbolsLayer</span>(<span class="dt">x =</span> mtq, <span class="dt">var =</span> <span class="st">&quot;P13_POP&quot;</span>, 
+                 <span class="dt">legend.title.txt =</span> <span class="st">&quot;Total</span><span class="ch">\n</span><span class="st">population (2013)&quot;</span>)
+<span class="co"># Title</span>
+<span class="kw">mtext</span>(<span class="dt">text =</span> <span class="st">&quot;Population in Martinique&quot;</span>, <span class="dt">side =</span> <span class="dv">3</span>, <span class="dt">line =</span> <span class="op">-</span><span class="dv">1</span>)
+<span class="kw">dev.off</span>()
+<span class="co">#                                                                                         .</span></code></pre></div>
+<p></small></p>
+</section><section id="some-simple-maps" class="slide level2">
+<h2>Some simple maps</h2>
+<p><img src="img/map1.png" alt="map1" style="border:0px"/></p>
+</section><section id="some-simple-maps-1" class="slide level2">
+<h2>Some simple maps</h2>
+<p><small></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># save map</span>
+<span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/map2.png&quot;</span>, <span class="dt">width =</span> <span class="dv">600</span>, <span class="dt">height =</span> <span class="dv">535</span>, <span class="dt">res =</span> <span class="dv">100</span>)
+<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="dv">0</span>))
+<span class="co"># compute the GDP per inhabitants</span>
+nuts0.df<span class="op">$</span>gdpinh &lt;-<span class="st"> </span>nuts0.df<span class="op">$</span>gdppps2008 <span class="op">*</span><span class="st"> </span><span class="fl">1e+06</span><span class="op">/</span>nuts0.df<span class="op">$</span>pop2008
+<span class="co"># Plot a background layers</span>
+<span class="kw">plot</span>(nuts0.spdf, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">col =</span> <span class="ot">NA</span>, <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)
+<span class="kw">plot</span>(world.spdf, <span class="dt">col =</span> <span class="st">&quot;#E3DEBF&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)
+
+<span class="co"># plot the gdp per inhabitant</span>
+<span class="kw">choroLayer</span>(<span class="dt">spdf =</span> nuts0.spdf, <span class="dt">df =</span> nuts0.df, <span class="dt">var =</span> <span class="st">&quot;gdpinh&quot;</span>, 
+           <span class="dt">col =</span> <span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;green.pal&quot;</span>, <span class="dt">n1 =</span> <span class="dv">4</span>), 
+           <span class="dt">method =</span> <span class="st">&quot;quantile&quot;</span>, <span class="dt">nclass =</span> <span class="dv">4</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>, 
+           <span class="dt">lwd =</span> <span class="fl">0.5</span>, <span class="dt">legend.pos =</span> <span class="st">&quot;right&quot;</span>, 
+           <span class="dt">legend.title.txt =</span> <span class="st">&quot;GDP per inh., 2008</span><span class="ch">\n</span><span class="st">(euros)&quot;</span>, <span class="dt">add =</span> T)
+
+<span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;choroLayer()&quot;</span>,
+            <span class="dt">author =</span> <span class="st">&quot;Package cartography v1.4.2&quot;</span>, 
+            <span class="dt">sources =</span> <span class="st">&quot;Source: Eurostat, 2011&quot;</span>, 
+            <span class="dt">frame =</span> <span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="ot">NULL</span>, <span class="dt">theme =</span> <span class="st">&quot;green.pal&quot;</span>, 
+            <span class="dt">north =</span> <span class="ot">FALSE</span>)
+<span class="kw">dev.off</span>()
+
+
+
+
+
+
+
+
+
+
+<span class="co">#                                                                                                         .</span></code></pre></div>
+<p></small></p>
+</section><section id="some-simple-maps-2" class="slide level2">
+<h2>Some simple maps</h2>
+<p><img src="img/map2.png" alt="map2" style="border:0px"/></p>
+</section><section id="some-simple-maps-3" class="slide level2">
+<h2>Some simple maps</h2>
+<p><small></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># save map</span>
+<span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/map3.png&quot;</span>, <span class="dt">width =</span> <span class="dv">600</span>, <span class="dt">height =</span> <span class="dv">535</span>, <span class="dt">res =</span> <span class="dv">100</span>)
+<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="dv">0</span>))
+<span class="co"># Plot a background layers</span>
+<span class="kw">plot</span>(nuts0.spdf, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">col =</span> <span class="ot">NA</span>, <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)
+<span class="kw">plot</span>(world.spdf, <span class="dt">col =</span> <span class="st">&quot;#E3DEBF&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)
+
+<span class="co"># Plot the gdp per inhabitant</span>
+<span class="kw">choroLayer</span>(<span class="dt">spdf =</span> nuts0.spdf, <span class="dt">df =</span> nuts0.df, <span class="dt">var =</span> <span class="st">&quot;gdpinh&quot;</span>, 
+           <span class="dt">col =</span> <span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;sand.pal&quot;</span>, 
+                           <span class="dt">n1 =</span> <span class="dv">4</span>), <span class="dt">method =</span> <span class="st">&quot;quantile&quot;</span>, 
+           <span class="dt">nclass =</span> <span class="dv">4</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">lwd =</span> <span class="fl">0.5</span>, 
+           <span class="dt">legend.pos =</span> <span class="st">&quot;right&quot;</span>, 
+           <span class="dt">legend.title.txt =</span> <span class="st">&quot;GDP per inh., 2008</span><span class="ch">\n</span><span class="st">(euros)&quot;</span>, <span class="dt">add =</span> T)
+
+<span class="co"># Plot the population</span>
+<span class="kw">propSymbolsLayer</span>(<span class="dt">spdf =</span> nuts0.spdf, <span class="dt">df =</span> nuts0.df, 
+                 <span class="dt">inches =</span> <span class="fl">0.2</span>, <span class="dt">lwd =</span> <span class="fl">1.25</span>, 
+                 <span class="dt">var =</span> <span class="st">&quot;pop&quot;</span>, <span class="dt">col =</span> <span class="ot">NA</span>, <span class="dt">border =</span> <span class="st">&quot;#940000&quot;</span>, 
+                 <span class="dt">legend.pos =</span> <span class="st">&quot;topright&quot;</span>, <span class="dt">legend.values.rnd =</span> <span class="dv">0</span>, 
+                 <span class="dt">legend.title.txt =</span> 
+                   <span class="st">&quot;Population, 2008</span><span class="ch">\n</span><span class="st">(thousands of inh.)&quot;</span>, 
+                 <span class="dt">legend.frame =</span> F)
+
+<span class="co"># layout</span>
+<span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;propSymbolsLayer() + choroLayer()&quot;</span>, 
+            <span class="dt">author =</span> <span class="st">&quot;Package cartography v1.4.2&quot;</span>, 
+            <span class="dt">sources =</span> <span class="st">&quot;Source: Eurostat, 2011&quot;</span>, 
+            <span class="dt">scale =</span> <span class="ot">NULL</span>, <span class="dt">theme =</span> <span class="st">&quot;sand.pal&quot;</span>, 
+            <span class="dt">north =</span> <span class="ot">FALSE</span>, <span class="dt">frame =</span> <span class="ot">FALSE</span>)
+<span class="kw">dev.off</span>()
+
+
+
+
+
+
+<span class="co">#                                                                                                         .</span></code></pre></div>
+<p></small></p>
+</section><section id="some-simple-maps-4" class="slide level2">
+<h2>Some simple maps</h2>
+<p><img src="img/map3.png" alt="map3" style="border:0px"/></p>
+</section><section id="some-simple-maps-5" class="slide level2">
+<h2>Some simple maps</h2>
+<p><small></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># save map</span>
+<span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/map4.png&quot;</span>, <span class="dt">width =</span> <span class="dv">600</span>, <span class="dt">height =</span> <span class="dv">535</span>, <span class="dt">res =</span> <span class="dv">100</span>)
+<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="dv">0</span>))
+<span class="co"># Plot a background layers</span>
+<span class="kw">plot</span>(nuts0.spdf, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">col =</span> <span class="ot">NA</span>, <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)
+<span class="kw">plot</span>(world.spdf, <span class="dt">col =</span> <span class="st">&quot;#E3DEBF&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)
+<span class="kw">plot</span>(nuts0.spdf, <span class="dt">col =</span> <span class="st">&quot;#EAE797&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">lwd =</span> <span class="fl">0.5</span>, 
+     <span class="dt">add =</span> <span class="ot">TRUE</span>)
+
+<span class="co"># Plot symbols with choropleth coloration</span>
+<span class="kw">propSymbolsChoroLayer</span>(<span class="dt">spdf =</span> nuts0.spdf, <span class="dt">df =</span> nuts0.df, 
+                      <span class="dt">var =</span> <span class="st">&quot;pop&quot;</span>, <span class="dt">inches =</span> <span class="fl">0.3</span>, 
+                      <span class="dt">var2 =</span> <span class="st">&quot;gdpinh&quot;</span>, 
+                      <span class="dt">col =</span> <span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;blue.pal&quot;</span>, <span class="dt">n1 =</span> <span class="dv">4</span>), 
+                      <span class="dt">symbols =</span> <span class="st">&quot;square&quot;</span>, 
+                      <span class="dt">method =</span> <span class="st">&quot;quantile&quot;</span>, <span class="dt">nclass =</span> <span class="dv">4</span>, 
+                      <span class="dt">border =</span> <span class="st">&quot;grey50&quot;</span>, 
+                      <span class="dt">lwd =</span> <span class="fl">0.5</span>, <span class="dt">legend.var.pos =</span> <span class="st">&quot;topright&quot;</span>, 
+                      <span class="dt">legend.var.values.rnd =</span> <span class="dv">0</span>, 
+                      <span class="dt">legend.var.style =</span> <span class="st">&quot;e&quot;</span>, 
+                      <span class="dt">legend.var2.pos =</span> <span class="st">&quot;right&quot;</span>, 
+                      <span class="dt">legend.var2.values.rnd =</span> <span class="dv">0</span>,
+                      <span class="dt">legend.var.title.txt =</span> 
+                        <span class="st">&quot;Population, 2008</span><span class="ch">\n</span><span class="st">(thousands of inh.)&quot;</span>,
+                      <span class="dt">legend.var2.title.txt =</span> 
+                        <span class="st">&quot;GDP per inh., 2008</span><span class="ch">\n</span><span class="st">(euros)&quot;</span>)
+
+
+<span class="co"># layout</span>
+<span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;propSymbolsChoroLayer()&quot;</span>, 
+            <span class="dt">author =</span> <span class="st">&quot;Package cartography v1.4.2&quot;</span>, 
+            <span class="dt">sources =</span> <span class="st">&quot;Source: Eurostat, 2011&quot;</span>,
+            <span class="dt">frame =</span> <span class="ot">FALSE</span>, 
+            <span class="dt">theme =</span> <span class="st">&quot;blue.pal&quot;</span>, <span class="dt">scale =</span> <span class="dv">500</span>, <span class="dt">north =</span> <span class="ot">FALSE</span>)
+<span class="kw">dev.off</span>()
+
+
+
+
+
+
+<span class="co">#                                                                                                         .</span></code></pre></div>
+<p></small></p>
+</section><section id="some-simple-maps-6" class="slide level2">
+<h2>Some simple maps</h2>
+<p><img src="img/map4.png" alt="map4" style="border:0px"/></p>
+</section><section id="gridded-map" class="slide level2">
+<h2>Gridded Map</h2>
+<p><small></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a grid layer</span>
+mygrid &lt;-<span class="st"> </span><span class="kw">getGridLayer</span>(<span class="dt">spdf =</span> nuts3.spdf, <span class="dt">cellsize =</span> <span class="fl">1e+05</span>, 
+                       <span class="dt">type =</span> <span class="st">&quot;hexagonal&quot;</span>)
+<span class="co"># Compute data for the grid layer</span>
+df1 &lt;-<span class="st"> </span><span class="kw">getGridData</span>(<span class="dt">x =</span> mygrid, <span class="dt">df =</span> nuts3.df, <span class="dt">var =</span> <span class="st">&quot;pop2008&quot;</span>)
+df2 &lt;-<span class="st"> </span><span class="kw">getGridData</span>(<span class="dt">x =</span> mygrid, <span class="dt">df =</span> nuts3.df, <span class="dt">var =</span> <span class="st">&quot;pop1999&quot;</span>)
+
+<span class="co"># Compute the compound annual growth rate</span>
+df1<span class="op">$</span>cagr &lt;-<span class="st"> </span>(((df1<span class="op">$</span>pop2008<span class="op">/</span>df2<span class="op">$</span>pop1999)<span class="op">^</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">9</span>)) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
+v &lt;-<span class="st"> </span><span class="kw">getBreaks</span>(<span class="dt">v =</span> df1<span class="op">$</span>cagr, <span class="dt">method =</span> <span class="st">&quot;quantile&quot;</span>, <span class="dt">nclass =</span> <span class="dv">10</span>)
+v[<span class="dv">5</span>] &lt;-<span class="st"> </span><span class="dv">0</span>
+
+<span class="co"># set a color palette</span>
+cols &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;#f18b61&quot;</span>, <span class="st">&quot;#f7b48c&quot;</span>, <span class="st">&quot;#f3d9b7&quot;</span>, <span class="st">&quot;#f1eccd&quot;</span>, 
+          <span class="st">&quot;#c0dec2&quot;</span>, <span class="st">&quot;#91caa4&quot;</span>, <span class="st">&quot;#63b285&quot;</span>, <span class="st">&quot;#329966&quot;</span>, 
+          <span class="st">&quot;#26734d&quot;</span>, <span class="st">&quot;#1a4c33&quot;</span>)
+
+
+<span class="co"># save the map in png format</span>
+<span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/map5.png&quot;</span>, <span class="dt">width =</span> <span class="dv">600</span>, <span class="dt">height =</span> <span class="dv">535</span>, <span class="dt">res =</span> <span class="dv">100</span>)
+<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">1.2</span>, <span class="dv">0</span>))
+
+<span class="co"># Plot a background layers</span>
+<span class="kw">plot</span>(nuts0.spdf, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">col =</span> <span class="ot">NA</span>, <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)
+<span class="kw">plot</span>(world.spdf, <span class="dt">col =</span> <span class="st">&quot;#CCCCCC&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)
+
+<span class="co"># plot the choropleth grid</span>
+<span class="kw">choroLayer</span>(<span class="dt">spdf =</span> mygrid<span class="op">$</span>spdf, <span class="dt">df =</span> df1, <span class="dt">var =</span> <span class="st">&quot;cagr&quot;</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>, 
+           <span class="dt">col =</span> cols, <span class="dt">lwd =</span> <span class="fl">0.6</span>, <span class="dt">border =</span> <span class="st">&quot;#FFFFFF60&quot;</span>, 
+           <span class="dt">legend.pos =</span> <span class="st">&quot;right&quot;</span>, <span class="dt">breaks =</span> v, <span class="dt">legend.values.rnd =</span> <span class="dv">2</span>, 
+           <span class="dt">legend.title.txt =</span> <span class="st">&quot;Compound Annual</span><span class="ch">\n</span><span class="st">Growth Rate&quot;</span>)
+
+<span class="co"># plot countries boundaries</span>
+<span class="kw">plot</span>(nuts0.spdf, <span class="dt">add =</span> T, <span class="dt">col =</span> <span class="ot">NA</span>, <span class="dt">border =</span> <span class="st">&quot;#56514c&quot;</span>, <span class="dt">lwd =</span> <span class="fl">0.7</span>)
+
+<span class="co"># Plot a layout</span>
+<span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Demographic Trends, 1999-2008&quot;</span>, 
+            <span class="dt">author =</span> <span class="st">&quot;Package cartography v1.4.2&quot;</span>, 
+            <span class="dt">sources =</span> <span class="st">&quot;Source: Eurostat, 2011&quot;</span>, <span class="dt">frame =</span> <span class="ot">TRUE</span>, 
+            <span class="dt">scale =</span> <span class="dv">500</span>, <span class="dt">north =</span> <span class="ot">TRUE</span>, <span class="dt">theme =</span> <span class="st">&quot;taupe.pal&quot;</span>)
+<span class="kw">dev.off</span>()
+
+
+
+
+
+
+<span class="co">#                                                                                                         .</span></code></pre></div>
+<p></small></p>
+</section><section id="gridded-map-1" class="slide level2">
+<h2>Gridded Map</h2>
+<p><img src="img/map5.png" alt="map5" style="border:0px"/></p>
+</section><section id="discontinuities-map" class="slide level2">
+<h2>Discontinuities map</h2>
+<p><small></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Get a SpatialLinesDataFrame of countries borders</span>
+nuts2.contig &lt;-<span class="st"> </span><span class="kw">getBorders</span>(nuts2.spdf)
+nuts2.df<span class="op">$</span>gdpcap &lt;-<span class="st"> </span>nuts2.df<span class="op">$</span>gdppps2008<span class="op">/</span>nuts2.df<span class="op">$</span>pop2008 <span class="op">*</span><span class="st"> </span><span class="fl">1e+06</span>
+
+<span class="co"># save the map in png format</span>
+<span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/map6.png&quot;</span>, <span class="dt">width =</span> <span class="dv">600</span>, <span class="dt">height =</span> <span class="dv">535</span>, <span class="dt">res =</span> <span class="dv">100</span>)
+<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">1.2</span>, <span class="dv">0</span>))
+
+<span class="co"># Plot a background layers</span>
+<span class="kw">plot</span>(nuts2.spdf, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">col =</span> <span class="ot">NA</span>, <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)
+<span class="kw">plot</span>(world.spdf, <span class="dt">col =</span> <span class="st">&quot;#E3DEBF&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)
+
+<span class="co"># Plot GDP per capita with a choropleth layer</span>
+<span class="kw">choroLayer</span>(<span class="dt">spdf =</span> nuts2.spdf, <span class="dt">df =</span> nuts2.df, <span class="dt">var =</span> <span class="st">&quot;gdpcap&quot;</span>, 
+           <span class="dt">border =</span> <span class="st">&quot;grey20&quot;</span>, <span class="dt">lwd =</span> <span class="fl">0.2</span>, 
+           <span class="dt">col =</span> <span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;green.pal&quot;</span>, <span class="dt">n1 =</span> <span class="dv">3</span>, <span class="st">&quot;sand.pal&quot;</span>, <span class="dv">3</span>), 
+           <span class="dt">method =</span> <span class="st">&quot;quantile&quot;</span>, <span class="dt">nclass =</span> <span class="dv">6</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>, 
+           <span class="dt">legend.pos =</span> <span class="st">&quot;right&quot;</span>, <span class="dt">legend.values.rnd =</span> <span class="op">-</span><span class="dv">2</span>, 
+           <span class="dt">legend.title.txt =</span> <span class="st">&quot;GDP per Capita</span><span class="ch">\n</span><span class="st">(in euros)&quot;</span>)
+
+<span class="co"># Plot discontinuities</span>
+<span class="kw">discLayer</span>(<span class="dt">spdf =</span> nuts2.contig, <span class="dt">df =</span> nuts2.df, 
+          <span class="dt">var =</span> <span class="st">&quot;gdpcap&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;rel&quot;</span>, 
+          <span class="dt">method =</span> <span class="st">&quot;equal&quot;</span>, <span class="dt">nclass =</span> <span class="dv">3</span>, <span class="dt">threshold =</span> <span class="fl">0.4</span>, 
+          <span class="dt">sizemin =</span> <span class="fl">0.7</span>, <span class="dt">sizemax =</span> <span class="dv">6</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, 
+          <span class="dt">legend.values.rnd =</span> <span class="dv">1</span>, <span class="dt">legend.pos =</span> <span class="st">&quot;topright&quot;</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>,
+          <span class="dt">legend.title.txt =</span> 
+            <span class="st">&quot;Discontinuities in </span><span class="ch">\n</span><span class="st">GDP per Capita</span><span class="ch">\n</span><span class="st">(relative)&quot;</span>)
+
+<span class="co"># Layout</span>
+<span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Wealth Disparities in Europe, 2008&quot;</span>, 
+            <span class="dt">author =</span> <span class="st">&quot;Package cartography v1.4.2&quot;</span>, 
+            <span class="dt">sources =</span> <span class="st">&quot;Source: Eurostat, 2011&quot;</span>, <span class="dt">frame =</span> <span class="ot">TRUE</span>, 
+            <span class="dt">scale =</span> <span class="dv">500</span>, <span class="dt">north =</span> <span class="ot">FALSE</span>, <span class="dt">theme =</span> <span class="st">&quot;grey.pal&quot;</span>)
+<span class="kw">dev.off</span>()
+
+
+
+
+
+
+
+<span class="co">#                                                                                                         .</span></code></pre></div>
+<p></small></p>
+</section><section id="discontinuities-map-1" class="slide level2">
+<h2>Discontinuities map</h2>
+<p><img src="img/map6.png" alt="map6" style="border:0px"/></p>
+</section><section id="isopleth-map" class="slide level2">
+<h2>Isopleth map</h2>
+<p><small></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a grid layer</span>
+mygrid &lt;-<span class="st"> </span><span class="kw">getGridLayer</span>(<span class="dt">spdf =</span> nuts3.spdf, <span class="dt">cellsize =</span> <span class="dv">50000</span>, <span class="dt">type =</span> <span class="st">&quot;regular&quot;</span>)
+
+<span class="co"># transform gdp in euros</span>
+nuts3.df<span class="op">$</span>gdp &lt;-<span class="st"> </span>nuts3.df<span class="op">$</span>gdppps2008 <span class="op">*</span><span class="st"> </span><span class="fl">1e+06</span>
+<span class="co"># Compute data for the grid layer</span>
+df1 &lt;-<span class="st"> </span><span class="kw">getGridData</span>(<span class="dt">x =</span> mygrid, <span class="dt">df =</span> nuts3.df, <span class="dt">var =</span> <span class="st">&quot;pop2008&quot;</span>)
+df2 &lt;-<span class="st"> </span><span class="kw">getGridData</span>(<span class="dt">x =</span> mygrid, <span class="dt">df =</span> nuts3.df, <span class="dt">var =</span> <span class="st">&quot;gdp&quot;</span>)
+df1<span class="op">$</span>gdp &lt;-<span class="st"> </span>df2<span class="op">$</span>gdp
+
+<span class="co"># list of breaks</span>
+v &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2920</span>, <span class="dv">5000</span>, <span class="dv">10000</span>, <span class="dv">15000</span>, <span class="dv">20000</span>, <span class="dv">23500</span>, <span class="dv">30000</span>, <span class="dv">35000</span>, <span class="dv">40000</span>, <span class="dv">42720</span>)
+
+<span class="co"># save the map to a png file</span>
+<span class="co"># save the map in png format</span>
+<span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/map7.png&quot;</span>, <span class="dt">width =</span> <span class="dv">600</span>, <span class="dt">height =</span> <span class="dv">535</span>, <span class="dt">res =</span> <span class="dv">100</span>)
+<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">1.2</span>, <span class="dv">0</span>))
+
+<span class="co"># Plot a background layers</span>
+<span class="kw">plot</span>(nuts0.spdf, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">col =</span> <span class="ot">NA</span>, <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)
+<span class="kw">plot</span>(world.spdf, <span class="dt">col =</span> <span class="st">&quot;#E3DEBF&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)
+
+<span class="co"># set a color palette</span>
+cols &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rev</span>(<span class="kw">carto.pal</span>(<span class="st">&quot;green.pal&quot;</span>, <span class="dv">5</span>)), <span class="kw">carto.pal</span>(<span class="st">&quot;orange.pal&quot;</span>, <span class="dv">4</span>))
+
+<span class="co"># compute &amp; display the potential map</span>
+<span class="kw">smoothLayer</span>(<span class="dt">spdf =</span> mygrid<span class="op">$</span>spdf, <span class="dt">df =</span> df1, 
+            <span class="dt">var =</span> <span class="st">&quot;gdp&quot;</span>, <span class="dt">var2 =</span> <span class="st">&quot;pop2008&quot;</span>, <span class="dt">breaks =</span> v, 
+    <span class="dt">span =</span> <span class="fl">1e+05</span>, <span class="dt">beta =</span> <span class="dv">2</span>, <span class="dt">mask =</span> nuts0.spdf, 
+    <span class="dt">resolution =</span> <span class="dv">49000</span>, <span class="dt">col =</span> cols, 
+    <span class="dt">legend.title.txt =</span> <span class="st">&quot;Potential</span><span class="ch">\n</span><span class="st">GDP per capita</span><span class="ch">\n</span><span class="st">(in euros)&quot;</span>, 
+    <span class="dt">legend.values.rnd =</span> <span class="op">-</span><span class="dv">2</span>, 
+    <span class="dt">border =</span> <span class="st">&quot;grey80&quot;</span>, <span class="dt">lwd =</span> <span class="fl">0.5</span>, <span class="dt">add =</span> T, <span class="dt">legend.pos =</span> <span class="st">&quot;topright&quot;</span>)
+
+<span class="co"># plot Europe contour</span>
+<span class="kw">plot</span>(rgeos<span class="op">::</span><span class="kw">gBuffer</span>(nuts0.spdf, <span class="ot">FALSE</span>, <span class="dv">1</span>), <span class="dt">add =</span> T, <span class="dt">col =</span> <span class="ot">NA</span>, 
+     <span class="dt">border =</span> <span class="st">&quot;grey50&quot;</span>)
+
+<span class="co"># plot a layout</span>
+<span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Wealth Inequalities in Europe, 2008&quot;</span>, 
+            <span class="dt">author =</span> <span class="st">&quot;Package cartography v1.4.2&quot;</span>, 
+            <span class="dt">sources =</span> <span class="st">&quot;Source: Eurostat, 2011&quot;</span>, <span class="dt">frame =</span> <span class="ot">TRUE</span>, 
+            <span class="dt">scale =</span> <span class="dv">500</span>, <span class="dt">north =</span> <span class="ot">FALSE</span>, <span class="dt">theme =</span> <span class="st">&quot;sand.pal&quot;</span>)
+
+<span class="co"># plot a text on the map</span>
+<span class="kw">text</span>(<span class="dt">x =</span> <span class="dv">6271272</span>, <span class="dt">y =</span> <span class="dv">3600000</span>, 
+     <span class="dt">labels =</span> <span class="st">&quot;Distance function:</span><span class="ch">\n</span><span class="st">- type = exponential</span><span class="ch">\n</span><span class="st">- beta = 2</span><span class="ch">\n</span><span class="st">- span = 100 km&quot;</span>, 
+     <span class="dt">cex =</span> <span class="fl">0.8</span>, <span class="dt">adj =</span> <span class="dv">0</span>, <span class="dt">font =</span> <span class="dv">3</span>)
+
+<span class="kw">dev.off</span>()
+
+
+
+
+
+
+
+
+
+
+
+<span class="co">#                                                                                                         .</span></code></pre></div>
+<p></small></p>
+</section><section id="isopleth-map-1" class="slide level2">
+<h2>Isopleth map</h2>
+<p><img src="img/map7.png" alt="map7" style="border:0px"/></p>
+</section><section id="section" class="slide level2">
+<h2></h2>
+<p><br/><br/><img src="img/cartomix.png" alt="science" style="width:600px;border:0px"/></p>
+</section></section>
+<section><section id="thank-you" class="titleslide slide level1" data-transition="convex-in fade-out"><h1>Thank you</h1></section><section id="thank-you-1" class="slide level2" data-transition="fade-in fade-out">
+<h2>Thank you</h2>
+<p><strong>Paper / Code / Slides</strong><br />
+<a href="https://github.com/riatelab/ReproducibleCartography/" class="uri">https://github.com/riatelab/ReproducibleCartography/</a><br />
+<br/> <strong>cartography</strong><br />
+Github: <a href="https://github.com/Groupe-ElementR/cartography" class="uri">https://github.com/Groupe-ElementR/cartography</a><br />
+CRAN: <a href="https://cran.r-project.org/web/packages/cartography/index.html">https://cran.r-project.org/web/packages/cartography/</a><br />
+<br/> <strong>Blogs</strong><br />
+neocarto: <a href="https://neocarto.hypotheses.org/">neocarto.hypotheses.org</a><br />
+rgeomatic: <a href="https://rgeomatic.hypotheses.org/">rgeomatic.hypotheses.org</a></p>
+</section></section>
+    </div>
+  </div>
+
+  <script src="index_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="index_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: false,
+        // Transition style
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+
+
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'index_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>
