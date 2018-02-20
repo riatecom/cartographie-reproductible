@@ -540,7 +540,7 @@ Cette variété de formats et de logiciels rend difficile la reproduction des ca
 <h2>Cartographie reproductible !</h2>
 <p><img src="img/chain3.png" alt="Drawing" style="width: 100%;border:0px"/> Simplifier les chaines de traitement pour couvrir les différentes étapes de la construction cartographique.</p>
 </section></section>
-<section><section id="les-fonctionnalites-spatiales-de-r" class="titleslide slide level1"><h1>Les fonctionnalités spatiales de R<br/><img src="animation.gif" alt="sf gif" style="border:0px"/></h1></section><section id="les-packages-historiques" class="slide level2">
+<section><section id="les-fonctionnalites-spatiales-de-r" class="titleslide slide level1"><h1>Les fonctionnalités spatiales de R<br/><img src="img/sf.gif" alt="sf gif" style="border:0px"/></h1></section><section id="les-packages-historiques" class="slide level2">
 <h2>Les packages historiques</h2>
 <ul>
 <li><p><code>rgdal</code> : interface entre R et les librairies GDAL (<a href="http://www.gdal.org/">Geospatial Data Abstraction Library</a>) et <a href="https://github.com/OSGeo/proj.4">PROJ4</a>.</p></li>
@@ -635,8 +635,8 @@ mtq_v &lt;-<span class="st"> </span><span class="kw">st_cast</span>(mtq_v, <span
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_v), <span class="dt">col=</span><span class="st">&#39;lightblue&#39;</span>)</code></pre></div>
 <p><img src="index_files/figure-revealjs/unnamed-chunk-9-1.png" width="288" /></p>
 </section></section>
-<section><section id="le-package-cartography" class="titleslide slide level1" data-background="./img/computerrage.gif"><h1>Le package cartography</h1></section><section id="propsymbolslayer" class="slide level2">
-<h2>propSymbolsLayer()</h2>
+<section><section id="le-package-cartography" class="titleslide slide level1" data-background="./img/computerrage.gif"><h1>Le package cartography</h1></section><section id="symboles-proportionnels" class="slide level2">
+<h2>Symboles proportionnels</h2>
 <p><small></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(cartography)
 <span class="kw">library</span>(sf)
@@ -650,163 +650,148 @@ mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="k
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>,
      <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)
 <span class="co"># Population plot on proportional symbols</span>
-<span class="kw">propSymbolsLayer</span>(<span class="dt">x =</span> mtq, <span class="dt">var =</span> <span class="st">&quot;P13_POP&quot;</span>, 
+<span class="kw">propSymbolsLayer</span>(<span class="dt">x =</span> mtq, 
+                 <span class="dt">var =</span> <span class="st">&quot;P13_POP&quot;</span>, 
                  <span class="dt">legend.title.txt =</span> <span class="st">&quot;Total</span><span class="ch">\n</span><span class="st">population (2013)&quot;</span>)
 <span class="co"># Title</span>
-<span class="kw">mtext</span>(<span class="dt">text =</span> <span class="st">&quot;Population in Martinique&quot;</span>, <span class="dt">side =</span> <span class="dv">3</span>, <span class="dt">line =</span> <span class="op">-</span><span class="dv">1</span>)
+<span class="kw">mtext</span>(<span class="dt">text =</span> <span class="st">&quot;Population en Martinique&quot;</span>, <span class="dt">side =</span> <span class="dv">3</span>, <span class="dt">line =</span> <span class="op">-</span><span class="dv">1</span>)
 <span class="kw">dev.off</span>()
 <span class="co">#                                                                                         .</span></code></pre></div>
 <p></small></p>
-</section><section id="some-simple-maps" class="slide level2">
-<h2>Some simple maps</h2>
+</section><section id="symboles-proportionnels-1" class="slide level2">
+<h2>Symboles proportionnels</h2>
 <p><img src="img/map1.png" alt="map1" style="border:0px"/></p>
-</section><section id="some-simple-maps-1" class="slide level2">
-<h2>Some simple maps</h2>
+</section><section id="carte-choroplethe" class="slide level2">
+<h2>Carte choroplèthe</h2>
 <p><small></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># save map</span>
-<span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/map2.png&quot;</span>, <span class="dt">width =</span> <span class="dv">600</span>, <span class="dt">height =</span> <span class="dv">535</span>, <span class="dt">res =</span> <span class="dv">100</span>)
-<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="dv">0</span>))
-<span class="co"># compute the GDP per inhabitants</span>
-nuts0.df<span class="op">$</span>gdpinh &lt;-<span class="st"> </span>nuts0.df<span class="op">$</span>gdppps2008 <span class="op">*</span><span class="st"> </span><span class="fl">1e+06</span><span class="op">/</span>nuts0.df<span class="op">$</span>pop2008
-<span class="co"># Plot a background layers</span>
-<span class="kw">plot</span>(nuts0.spdf, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">col =</span> <span class="ot">NA</span>, <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)
-<span class="kw">plot</span>(world.spdf, <span class="dt">col =</span> <span class="st">&quot;#E3DEBF&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)
-
-<span class="co"># plot the gdp per inhabitant</span>
-<span class="kw">choroLayer</span>(<span class="dt">spdf =</span> nuts0.spdf, <span class="dt">df =</span> nuts0.df, <span class="dt">var =</span> <span class="st">&quot;gdpinh&quot;</span>, 
-           <span class="dt">col =</span> <span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;green.pal&quot;</span>, <span class="dt">n1 =</span> <span class="dv">4</span>), 
-           <span class="dt">method =</span> <span class="st">&quot;quantile&quot;</span>, <span class="dt">nclass =</span> <span class="dv">4</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>, 
-           <span class="dt">lwd =</span> <span class="fl">0.5</span>, <span class="dt">legend.pos =</span> <span class="st">&quot;right&quot;</span>, 
-           <span class="dt">legend.title.txt =</span> <span class="st">&quot;GDP per inh., 2008</span><span class="ch">\n</span><span class="st">(euros)&quot;</span>, <span class="dt">add =</span> T)
-
-<span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;choroLayer()&quot;</span>,
-            <span class="dt">author =</span> <span class="st">&quot;Package cartography v1.4.2&quot;</span>, 
-            <span class="dt">sources =</span> <span class="st">&quot;Source: Eurostat, 2011&quot;</span>, 
-            <span class="dt">frame =</span> <span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="ot">NULL</span>, <span class="dt">theme =</span> <span class="st">&quot;green.pal&quot;</span>, 
-            <span class="dt">north =</span> <span class="ot">FALSE</span>)
-<span class="kw">dev.off</span>()
-
-
-
-
-
-
-
-
-
-
-<span class="co">#                                                                                                         .</span></code></pre></div>
-<p></small></p>
-</section><section id="some-simple-maps-2" class="slide level2">
-<h2>Some simple maps</h2>
-<p><img src="img/map2.png" alt="map2" style="border:0px"/></p>
-</section><section id="some-simple-maps-3" class="slide level2">
-<h2>Some simple maps</h2>
-<p><small></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># save map</span>
-<span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/map3.png&quot;</span>, <span class="dt">width =</span> <span class="dv">600</span>, <span class="dt">height =</span> <span class="dv">535</span>, <span class="dt">res =</span> <span class="dv">100</span>)
-<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="dv">0</span>))
-<span class="co"># Plot a background layers</span>
-<span class="kw">plot</span>(nuts0.spdf, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">col =</span> <span class="ot">NA</span>, <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)
-<span class="kw">plot</span>(world.spdf, <span class="dt">col =</span> <span class="st">&quot;#E3DEBF&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)
-
-<span class="co"># Plot the gdp per inhabitant</span>
-<span class="kw">choroLayer</span>(<span class="dt">spdf =</span> nuts0.spdf, <span class="dt">df =</span> nuts0.df, <span class="dt">var =</span> <span class="st">&quot;gdpinh&quot;</span>, 
-           <span class="dt">col =</span> <span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;sand.pal&quot;</span>, 
-                           <span class="dt">n1 =</span> <span class="dv">4</span>), <span class="dt">method =</span> <span class="st">&quot;quantile&quot;</span>, 
-           <span class="dt">nclass =</span> <span class="dv">4</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">lwd =</span> <span class="fl">0.5</span>, 
-           <span class="dt">legend.pos =</span> <span class="st">&quot;right&quot;</span>, 
-           <span class="dt">legend.title.txt =</span> <span class="st">&quot;GDP per inh., 2008</span><span class="ch">\n</span><span class="st">(euros)&quot;</span>, <span class="dt">add =</span> T)
-
-<span class="co"># Plot the population</span>
-<span class="kw">propSymbolsLayer</span>(<span class="dt">spdf =</span> nuts0.spdf, <span class="dt">df =</span> nuts0.df, 
-                 <span class="dt">inches =</span> <span class="fl">0.2</span>, <span class="dt">lwd =</span> <span class="fl">1.25</span>, 
-                 <span class="dt">var =</span> <span class="st">&quot;pop&quot;</span>, <span class="dt">col =</span> <span class="ot">NA</span>, <span class="dt">border =</span> <span class="st">&quot;#940000&quot;</span>, 
-                 <span class="dt">legend.pos =</span> <span class="st">&quot;topright&quot;</span>, <span class="dt">legend.values.rnd =</span> <span class="dv">0</span>, 
-                 <span class="dt">legend.title.txt =</span> 
-                   <span class="st">&quot;Population, 2008</span><span class="ch">\n</span><span class="st">(thousands of inh.)&quot;</span>, 
-                 <span class="dt">legend.frame =</span> F)
-
-<span class="co"># layout</span>
-<span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;propSymbolsLayer() + choroLayer()&quot;</span>, 
-            <span class="dt">author =</span> <span class="st">&quot;Package cartography v1.4.2&quot;</span>, 
-            <span class="dt">sources =</span> <span class="st">&quot;Source: Eurostat, 2011&quot;</span>, 
-            <span class="dt">scale =</span> <span class="ot">NULL</span>, <span class="dt">theme =</span> <span class="st">&quot;sand.pal&quot;</span>, 
-            <span class="dt">north =</span> <span class="ot">FALSE</span>, <span class="dt">frame =</span> <span class="ot">FALSE</span>)
-<span class="kw">dev.off</span>()
-
-
-
-
-
-
-<span class="co">#                                                                                                         .</span></code></pre></div>
-<p></small></p>
-</section><section id="some-simple-maps-4" class="slide level2">
-<h2>Some simple maps</h2>
-<p><img src="img/map3.png" alt="map3" style="border:0px"/></p>
-</section><section id="some-simple-maps-5" class="slide level2">
-<h2>Some simple maps</h2>
-<p><small></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># save map</span>
-<span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/map4.png&quot;</span>, <span class="dt">width =</span> <span class="dv">600</span>, <span class="dt">height =</span> <span class="dv">535</span>, <span class="dt">res =</span> <span class="dv">100</span>)
-<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="dv">0</span>))
-<span class="co"># Plot a background layers</span>
-<span class="kw">plot</span>(nuts0.spdf, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">col =</span> <span class="ot">NA</span>, <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)
-<span class="kw">plot</span>(world.spdf, <span class="dt">col =</span> <span class="st">&quot;#E3DEBF&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)
-<span class="kw">plot</span>(nuts0.spdf, <span class="dt">col =</span> <span class="st">&quot;#EAE797&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">lwd =</span> <span class="fl">0.5</span>, 
-     <span class="dt">add =</span> <span class="ot">TRUE</span>)
-
-<span class="co"># Plot symbols with choropleth coloration</span>
-<span class="kw">propSymbolsChoroLayer</span>(<span class="dt">spdf =</span> nuts0.spdf, <span class="dt">df =</span> nuts0.df, 
-                      <span class="dt">var =</span> <span class="st">&quot;pop&quot;</span>, <span class="dt">inches =</span> <span class="fl">0.3</span>, 
-                      <span class="dt">var2 =</span> <span class="st">&quot;gdpinh&quot;</span>, 
-                      <span class="dt">col =</span> <span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;blue.pal&quot;</span>, <span class="dt">n1 =</span> <span class="dv">4</span>), 
-                      <span class="dt">symbols =</span> <span class="st">&quot;square&quot;</span>, 
-                      <span class="dt">method =</span> <span class="st">&quot;quantile&quot;</span>, <span class="dt">nclass =</span> <span class="dv">4</span>, 
-                      <span class="dt">border =</span> <span class="st">&quot;grey50&quot;</span>, 
-                      <span class="dt">lwd =</span> <span class="fl">0.5</span>, <span class="dt">legend.var.pos =</span> <span class="st">&quot;topright&quot;</span>, 
-                      <span class="dt">legend.var.values.rnd =</span> <span class="dv">0</span>, 
-                      <span class="dt">legend.var.style =</span> <span class="st">&quot;e&quot;</span>, 
-                      <span class="dt">legend.var2.pos =</span> <span class="st">&quot;right&quot;</span>, 
-                      <span class="dt">legend.var2.values.rnd =</span> <span class="dv">0</span>,
-                      <span class="dt">legend.var.title.txt =</span> 
-                        <span class="st">&quot;Population, 2008</span><span class="ch">\n</span><span class="st">(thousands of inh.)&quot;</span>,
-                      <span class="dt">legend.var2.title.txt =</span> 
-                        <span class="st">&quot;GDP per inh., 2008</span><span class="ch">\n</span><span class="st">(euros)&quot;</span>)
-
-
-<span class="co"># layout</span>
-<span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;propSymbolsChoroLayer()&quot;</span>, 
-            <span class="dt">author =</span> <span class="st">&quot;Package cartography v1.4.2&quot;</span>, 
-            <span class="dt">sources =</span> <span class="st">&quot;Source: Eurostat, 2011&quot;</span>,
-            <span class="dt">frame =</span> <span class="ot">FALSE</span>, 
-            <span class="dt">theme =</span> <span class="st">&quot;blue.pal&quot;</span>, <span class="dt">scale =</span> <span class="dv">500</span>, <span class="dt">north =</span> <span class="ot">FALSE</span>)
-<span class="kw">dev.off</span>()
-
-
-
-
-
-
-<span class="co">#                                                                                                         .</span></code></pre></div>
-<p></small></p>
-</section><section id="some-simple-maps-6" class="slide level2">
-<h2>Some simple maps</h2>
-<p><img src="img/map4.png" alt="map4" style="border:0px"/></p>
-</section><section id="gridded-map" class="slide level2">
-<h2>Gridded Map</h2>
-<p><small></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a grid layer</span>
-mygrid &lt;-<span class="st"> </span><span class="kw">getGridLayer</span>(<span class="dt">spdf =</span> nuts3.spdf, <span class="dt">cellsize =</span> <span class="fl">1e+05</span>, 
-                       <span class="dt">type =</span> <span class="st">&quot;hexagonal&quot;</span>)
-<span class="co"># Compute data for the grid layer</span>
-df1 &lt;-<span class="st"> </span><span class="kw">getGridData</span>(<span class="dt">x =</span> mygrid, <span class="dt">df =</span> nuts3.df, <span class="dt">var =</span> <span class="st">&quot;pop2008&quot;</span>)
-df2 &lt;-<span class="st"> </span><span class="kw">getGridData</span>(<span class="dt">x =</span> mygrid, <span class="dt">df =</span> nuts3.df, <span class="dt">var =</span> <span class="st">&quot;pop1999&quot;</span>)
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/map2.png&quot;</span>, <span class="dt">width =</span> <span class="dv">400</span>, <span class="dt">height =</span> <span class="dv">467</span>, <span class="dt">res =</span> <span class="dv">100</span>)
 <span class="co"># Compute the compound annual growth rate</span>
-df1<span class="op">$</span>cagr &lt;-<span class="st"> </span>(((df1<span class="op">$</span>pop2008<span class="op">/</span>df2<span class="op">$</span>pop1999)<span class="op">^</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">9</span>)) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
-v &lt;-<span class="st"> </span><span class="kw">getBreaks</span>(<span class="dt">v =</span> df1<span class="op">$</span>cagr, <span class="dt">method =</span> <span class="st">&quot;quantile&quot;</span>, <span class="dt">nclass =</span> <span class="dv">10</span>)
+mtq<span class="op">$</span>cagr &lt;-<span class="st"> </span>(((mtq<span class="op">$</span>P13_POP <span class="op">/</span><span class="st"> </span>mtq<span class="op">$</span>P08_POP)<span class="op">^</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>)) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
+<span class="co"># set margins</span>
+<span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))
+<span class="co"># Map plot</span>
+<span class="kw">choroLayer</span>(<span class="dt">x =</span> mtq, 
+           <span class="dt">var =</span> <span class="st">&quot;cagr&quot;</span>, 
+           <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">6.14</span>,<span class="op">-</span><span class="dv">2</span>,<span class="op">-</span><span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>),
+           <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;#135D89&quot;</span>, <span class="st">&quot;#4D95BA&quot;</span>, <span class="st">&quot;#96D1EA&quot;</span>, <span class="st">&quot;#FCDACA&quot;</span>, <span class="st">&quot;#EC4E49&quot;</span>),
+           <span class="dt">legend.title.txt =</span> <span class="st">&quot;Compound annual</span><span class="ch">\n</span><span class="st">growth rate&quot;</span>)
+<span class="co"># Title</span>
+<span class="kw">mtext</span>(<span class="dt">text =</span> <span class="st">&quot;Evolution de la population&quot;</span>, <span class="dt">side =</span> <span class="dv">3</span>, <span class="dt">line =</span> <span class="op">-</span><span class="dv">1</span>)
+<span class="kw">dev.off</span>()
+
+
+<span class="co">#                                                                                                         .</span></code></pre></div>
+<p></small></p>
+</section><section id="carte-choroplethe-1" class="slide level2">
+<h2>Carte choroplèthe</h2>
+<p><img src="img/map2.png" alt="map2" style="border:0px"/></p>
+</section><section id="palettes-de-couleurs" class="slide level2">
+<h2>Palettes de couleurs</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">display.carto.all</span>(<span class="dv">20</span>)</code></pre></div>
+<p><img src="index_files/figure-revealjs/pal-1.png" width="768" /></p>
+</section><section id="palettes-de-couleurs-1" class="slide level2">
+<h2>Palettes de couleurs</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">display.carto.pal</span>(<span class="st">&quot;orange.pal&quot;</span>)</code></pre></div>
+<p><img src="index_files/figure-revealjs/pal1-1.png" width="768" /></p>
+</section><section id="palettes-de-couleurs-2" class="slide level2">
+<h2>Palettes de couleurs</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mypal &lt;-<span class="st"> </span><span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;wine.pal&quot;</span>, <span class="dt">n1 =</span> <span class="dv">7</span>, <span class="dt">pal2 =</span> <span class="st">&quot;green.pal&quot;</span>, <span class="dt">n2 =</span> <span class="dv">12</span>,
+                   <span class="dt">middle =</span> <span class="ot">TRUE</span>, <span class="dt">transparency =</span> <span class="ot">TRUE</span>)
+k &lt;-<span class="st"> </span><span class="kw">length</span>(mypal)
+<span class="kw">image</span>(<span class="dv">1</span><span class="op">:</span>k, <span class="dv">1</span>, <span class="kw">as.matrix</span>(<span class="dv">1</span><span class="op">:</span>k), <span class="dt">col=</span>mypal, <span class="dt">xlab =</span> <span class="kw">paste</span>(k,<span class="st">&quot; classes&quot;</span>,<span class="dt">sep=</span><span class="st">&quot;&quot;</span>),
+      <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">xaxt =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">yaxt =</span> <span class="st">&quot;n&quot;</span>,<span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>)</code></pre></div>
+<p><img src="index_files/figure-revealjs/pal2-1.png" width="768" /></p>
+</section><section id="discretisations" class="slide level2">
+<h2>Discrétisations</h2>
+<p><small></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">var &lt;-<span class="st"> </span>mtq<span class="op">$</span>cagr
+moy &lt;-<span class="st"> </span><span class="kw">mean</span>(var)
+med &lt;-<span class="st"> </span><span class="kw">median</span>(var)
+std &lt;-<span class="st"> </span><span class="kw">sd</span>(var)
+<span class="co"># Quantile intervals</span>
+breaks &lt;-<span class="st"> </span><span class="kw">getBreaks</span>(<span class="dt">v =</span> var, <span class="dt">nclass =</span> <span class="dv">6</span>, <span class="dt">method =</span> <span class="st">&quot;quantile&quot;</span>)
+<span class="kw">hist</span>(var, <span class="dt">probability =</span> <span class="ot">TRUE</span>, <span class="dt">breaks =</span> breaks, <span class="dt">main=</span><span class="st">&quot;quantiles&quot;</span>,
+     <span class="dt">col =</span> <span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;wine.pal&quot;</span>,<span class="dv">3</span>, <span class="st">&quot;green.pal&quot;</span>, <span class="dv">3</span>))
+<span class="kw">rug</span>(var)
+<span class="kw">abline</span>(<span class="dt">v =</span> med, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>)</code></pre></div>
+<p><img src="index_files/figure-revealjs/disc2-1.png" width="768" /> </small></p>
+</section><section id="discretisations-1" class="slide level2">
+<h2>Discrétisations</h2>
+<p><small></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Mean and standard deviation (msd)</span>
+breaks &lt;-<span class="st"> </span><span class="kw">getBreaks</span>(<span class="dt">v =</span> var, <span class="dt">method =</span> <span class="st">&quot;msd&quot;</span>, <span class="dt">k =</span> <span class="dv">1</span>, <span class="dt">middle =</span> <span class="ot">TRUE</span>)
+<span class="kw">hist</span>(var, <span class="dt">probability =</span> <span class="ot">TRUE</span>, <span class="dt">breaks =</span> breaks, <span class="dt">main=</span><span class="st">&quot;moyenne / écart-type&quot;</span>,
+     <span class="dt">col =</span> <span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;wine.pal&quot;</span>,<span class="dv">3</span> , <span class="st">&quot;green.pal&quot;</span>, <span class="dv">2</span>, <span class="dt">middle =</span> <span class="ot">TRUE</span>))
+<span class="kw">rug</span>(var)
+<span class="kw">abline</span>(<span class="dt">v =</span> moy, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>)
+<span class="kw">abline</span>(<span class="dt">v =</span> moy <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>std, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>)
+<span class="kw">abline</span>(<span class="dt">v =</span> moy <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>std, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>)</code></pre></div>
+<p><img src="index_files/figure-revealjs/disc3-1.png" width="768" /> </small></p>
+</section><section id="combinaisons" class="slide level2">
+<h2>Combinaisons</h2>
+<p><small></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/map3.png&quot;</span>, <span class="dt">width =</span> <span class="dv">400</span>, <span class="dt">height =</span> <span class="dv">467</span>, <span class="dt">res =</span> <span class="dv">100</span>)
+<span class="co"># set margins</span>
+<span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))
+<span class="co"># Map plot</span>
+<span class="co"># Countries plot</span>
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>,
+     <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)
+<span class="kw">propSymbolsChoroLayer</span>(<span class="dt">x =</span> mtq, <span class="dt">var=</span> <span class="st">&quot;P13_POP&quot;</span>, 
+                 <span class="dt">legend.var.title.txt =</span> <span class="st">&quot;Total</span><span class="ch">\n</span><span class="st">population (2013)&quot;</span>,
+           <span class="dt">var2 =</span> <span class="st">&quot;cagr&quot;</span>, <span class="dt">legend.var.pos =</span> <span class="st">&quot;bottomleft&quot;</span>, 
+           <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">6.14</span>,<span class="op">-</span><span class="dv">2</span>,<span class="op">-</span><span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>),
+           <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;#135D89&quot;</span>, <span class="st">&quot;#4D95BA&quot;</span>, <span class="st">&quot;#96D1EA&quot;</span>, <span class="st">&quot;#FCDACA&quot;</span>, <span class="st">&quot;#EC4E49&quot;</span>),
+           <span class="dt">legend.var2.title.txt =</span> <span class="st">&quot;Compound annual</span><span class="ch">\n</span><span class="st">growth rate&quot;</span>)
+<span class="co"># Title</span>
+<span class="kw">mtext</span>(<span class="dt">text =</span> <span class="st">&quot;Evolution de la population&quot;</span>, <span class="dt">side =</span> <span class="dv">3</span>, <span class="dt">line =</span> <span class="op">-</span><span class="dv">1</span>)
+<span class="kw">dev.off</span>()
+
+
+<span class="co">#                                                                                                         .</span></code></pre></div>
+<p></small></p>
+</section><section id="combinaisons-1" class="slide level2">
+<h2>Combinaisons</h2>
+<p><img src="img/map3.png" alt="map3" style="border:0px"/></p>
+</section><section id="labels" class="slide level2">
+<h2>Labels</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/map4.png&quot;</span>, <span class="dt">width =</span> <span class="dv">400</span>, <span class="dt">height =</span> <span class="dv">467</span>, <span class="dt">res =</span> <span class="dv">100</span>)
+<span class="co"># set margins</span>
+<span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, 
+     <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, 
+     <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)
+<span class="kw">labelLayer</span>(<span class="dt">x =</span> mtq, <span class="dt">txt =</span> <span class="st">&quot;LIBGEO&quot;</span>, <span class="dt">col=</span> <span class="st">&quot;black&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.7</span>, <span class="dt">font =</span> <span class="dv">4</span>,
+           <span class="dt">halo =</span> <span class="ot">TRUE</span>, <span class="dt">bg =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">r =</span> <span class="fl">0.1</span>, 
+           <span class="dt">overlap =</span> <span class="ot">FALSE</span>, <span class="dt">show.lines =</span> <span class="ot">FALSE</span>)
+<span class="kw">dev.off</span>()</code></pre></div>
+</section><section id="labels-1" class="slide level2">
+<h2>Labels</h2>
+<p><img src="img/map4.png" alt="map3" style="border:0px"/></p>
+</section><section id="tuiles-openstreetmap" class="slide level2">
+<h2>Tuiles OpenStreetMap</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/map4bis.png&quot;</span>, <span class="dt">width =</span> <span class="dv">400</span>, <span class="dt">height =</span> <span class="dv">467</span>, <span class="dt">res =</span> <span class="dv">100</span>)
+<span class="co"># set margins</span>
+<span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))
+tiles &lt;-<span class="st"> </span><span class="kw">getTiles</span>(<span class="dt">x =</span> mtq, <span class="dt">type =</span> <span class="st">&quot;osm&quot;</span>, <span class="dt">crop=</span>T)
+<span class="kw">tilesLayer</span>(tiles)
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">add=</span>T)
+<span class="kw">dev.off</span>()</code></pre></div>
+</section><section id="tuiles-openstreetmap-1" class="slide level2">
+<h2>Tuiles OpenStreetMap</h2>
+<p><img src="img/map4bis.png" alt="map3" style="border:0px"/></p>
+</section><section id="carte-carroyee" class="slide level2">
+<h2>Carte carroyée</h2>
+<p><small></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(cartography)
+<span class="kw">data</span>(nuts2006)
+nuts3.spdf<span class="op">@</span>data =<span class="st"> </span>nuts3.df
+<span class="co"># Create a grid layer</span>
+mygrid &lt;-<span class="st"> </span><span class="kw">getGridLayer</span>(<span class="dt">x =</span> nuts3.spdf, <span class="dt">cellsize =</span> <span class="dv">100000</span> <span class="op">*</span><span class="st"> </span><span class="dv">100000</span>, 
+                       <span class="dt">type =</span> <span class="st">&quot;hexagonal&quot;</span>, <span class="dt">var =</span> <span class="kw">c</span>(<span class="st">&quot;pop1999&quot;</span>,<span class="st">&quot;pop2008&quot;</span>))
+<span class="co"># Compute the compound annual growth rate</span>
+mygrid<span class="op">$</span>cagr &lt;-<span class="st"> </span>(((mygrid<span class="op">$</span>pop2008<span class="op">/</span>mygrid<span class="op">$</span>pop1999)<span class="op">^</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">9</span>)) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
+v &lt;-<span class="st"> </span><span class="kw">getBreaks</span>(<span class="dt">v =</span> mygrid<span class="op">$</span>cagr, <span class="dt">method =</span> <span class="st">&quot;quantile&quot;</span>, <span class="dt">nclass =</span> <span class="dv">10</span>)
 v[<span class="dv">5</span>] &lt;-<span class="st"> </span><span class="dv">0</span>
 
 <span class="co"># set a color palette</span>
@@ -814,17 +799,15 @@ cols &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&q
           <span class="st">&quot;#c0dec2&quot;</span>, <span class="st">&quot;#91caa4&quot;</span>, <span class="st">&quot;#63b285&quot;</span>, <span class="st">&quot;#329966&quot;</span>, 
           <span class="st">&quot;#26734d&quot;</span>, <span class="st">&quot;#1a4c33&quot;</span>)
 
-
 <span class="co"># save the map in png format</span>
 <span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/map5.png&quot;</span>, <span class="dt">width =</span> <span class="dv">600</span>, <span class="dt">height =</span> <span class="dv">535</span>, <span class="dt">res =</span> <span class="dv">100</span>)
 <span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">1.2</span>, <span class="dv">0</span>))
-
 <span class="co"># Plot a background layers</span>
 <span class="kw">plot</span>(nuts0.spdf, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">col =</span> <span class="ot">NA</span>, <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)
 <span class="kw">plot</span>(world.spdf, <span class="dt">col =</span> <span class="st">&quot;#CCCCCC&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)
 
 <span class="co"># plot the choropleth grid</span>
-<span class="kw">choroLayer</span>(<span class="dt">spdf =</span> mygrid<span class="op">$</span>spdf, <span class="dt">df =</span> df1, <span class="dt">var =</span> <span class="st">&quot;cagr&quot;</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>, 
+<span class="kw">choroLayer</span>(<span class="dt">x =</span> mygrid, <span class="dt">var =</span> <span class="st">&quot;cagr&quot;</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>, 
            <span class="dt">col =</span> cols, <span class="dt">lwd =</span> <span class="fl">0.6</span>, <span class="dt">border =</span> <span class="st">&quot;#FFFFFF60&quot;</span>, 
            <span class="dt">legend.pos =</span> <span class="st">&quot;right&quot;</span>, <span class="dt">breaks =</span> v, <span class="dt">legend.values.rnd =</span> <span class="dv">2</span>, 
            <span class="dt">legend.title.txt =</span> <span class="st">&quot;Compound Annual</span><span class="ch">\n</span><span class="st">Growth Rate&quot;</span>)
@@ -834,26 +817,23 @@ cols &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&q
 
 <span class="co"># Plot a layout</span>
 <span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Demographic Trends, 1999-2008&quot;</span>, 
-            <span class="dt">author =</span> <span class="st">&quot;Package cartography v1.4.2&quot;</span>, 
+            <span class="dt">author =</span> <span class="st">&quot;Package cartography v2.0.2&quot;</span>, 
             <span class="dt">sources =</span> <span class="st">&quot;Source: Eurostat, 2011&quot;</span>, <span class="dt">frame =</span> <span class="ot">TRUE</span>, 
             <span class="dt">scale =</span> <span class="dv">500</span>, <span class="dt">north =</span> <span class="ot">TRUE</span>, <span class="dt">theme =</span> <span class="st">&quot;taupe.pal&quot;</span>)
 <span class="kw">dev.off</span>()
 
 
 
-
-
-
 <span class="co">#                                                                                                         .</span></code></pre></div>
 <p></small></p>
-</section><section id="gridded-map-1" class="slide level2">
-<h2>Gridded Map</h2>
+</section><section id="carte-carroyee-1" class="slide level2">
+<h2>Carte carroyée</h2>
 <p><img src="img/map5.png" alt="map5" style="border:0px"/></p>
-</section><section id="discontinuities-map" class="slide level2">
-<h2>Discontinuities map</h2>
+</section><section id="carte-de-discontinuites" class="slide level2">
+<h2>Carte de discontinuités</h2>
 <p><small></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Get a SpatialLinesDataFrame of countries borders</span>
-nuts2.contig &lt;-<span class="st"> </span><span class="kw">getBorders</span>(nuts2.spdf)
+nuts2.contig &lt;-<span class="st"> </span><span class="kw">getBorders</span>(<span class="dt">x =</span> nuts2.spdf)
 nuts2.df<span class="op">$</span>gdpcap &lt;-<span class="st"> </span>nuts2.df<span class="op">$</span>gdppps2008<span class="op">/</span>nuts2.df<span class="op">$</span>pop2008 <span class="op">*</span><span class="st"> </span><span class="fl">1e+06</span>
 
 <span class="co"># save the map in png format</span>
@@ -873,7 +853,7 @@ nuts2.df<span class="op">$</span>gdpcap &lt;-<span class="st"> </span>nuts2.df<s
            <span class="dt">legend.title.txt =</span> <span class="st">&quot;GDP per Capita</span><span class="ch">\n</span><span class="st">(in euros)&quot;</span>)
 
 <span class="co"># Plot discontinuities</span>
-<span class="kw">discLayer</span>(<span class="dt">spdf =</span> nuts2.contig, <span class="dt">df =</span> nuts2.df, 
+<span class="kw">discLayer</span>(<span class="dt">x =</span> nuts2.contig, <span class="dt">df =</span> nuts2.df, 
           <span class="dt">var =</span> <span class="st">&quot;gdpcap&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;rel&quot;</span>, 
           <span class="dt">method =</span> <span class="st">&quot;equal&quot;</span>, <span class="dt">nclass =</span> <span class="dv">3</span>, <span class="dt">threshold =</span> <span class="fl">0.4</span>, 
           <span class="dt">sizemin =</span> <span class="fl">0.7</span>, <span class="dt">sizemax =</span> <span class="dv">6</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, 
@@ -883,9 +863,10 @@ nuts2.df<span class="op">$</span>gdpcap &lt;-<span class="st"> </span>nuts2.df<s
 
 <span class="co"># Layout</span>
 <span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Wealth Disparities in Europe, 2008&quot;</span>, 
-            <span class="dt">author =</span> <span class="st">&quot;Package cartography v1.4.2&quot;</span>, 
+            <span class="dt">author =</span> <span class="st">&quot;Package cartography v2.0.2&quot;</span>, 
             <span class="dt">sources =</span> <span class="st">&quot;Source: Eurostat, 2011&quot;</span>, <span class="dt">frame =</span> <span class="ot">TRUE</span>, 
             <span class="dt">scale =</span> <span class="dv">500</span>, <span class="dt">north =</span> <span class="ot">FALSE</span>, <span class="dt">theme =</span> <span class="st">&quot;grey.pal&quot;</span>)
+<span class="kw">north</span>(<span class="dt">pos=</span><span class="st">&quot;topleft&quot;</span>)
 <span class="kw">dev.off</span>()
 
 
@@ -896,21 +877,19 @@ nuts2.df<span class="op">$</span>gdpcap &lt;-<span class="st"> </span>nuts2.df<s
 
 <span class="co">#                                                                                                         .</span></code></pre></div>
 <p></small></p>
-</section><section id="discontinuities-map-1" class="slide level2">
-<h2>Discontinuities map</h2>
+</section><section id="carte-de-discontinuites-1" class="slide level2">
+<h2>Carte de discontinuités</h2>
 <p><img src="img/map6.png" alt="map6" style="border:0px"/></p>
-</section><section id="isopleth-map" class="slide level2">
-<h2>Isopleth map</h2>
+</section><section id="lissage" class="slide level2">
+<h2>Lissage</h2>
 <p><small></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a grid layer</span>
-mygrid &lt;-<span class="st"> </span><span class="kw">getGridLayer</span>(<span class="dt">spdf =</span> nuts3.spdf, <span class="dt">cellsize =</span> <span class="dv">50000</span>, <span class="dt">type =</span> <span class="st">&quot;regular&quot;</span>)
+nuts3.spdf<span class="op">@</span>data =<span class="st"> </span>nuts3.df
+mygrid &lt;-<span class="st"> </span><span class="kw">getGridLayer</span>(<span class="dt">x =</span> nuts3.spdf, <span class="dt">var =</span> <span class="kw">c</span>(<span class="st">&quot;pop2008&quot;</span>, <span class="st">&quot;gdppps2008&quot;</span>),
+                       <span class="dt">cellsize =</span> <span class="dv">50000</span> <span class="op">*</span><span class="st"> </span><span class="dv">50000</span>, <span class="dt">type =</span> <span class="st">&quot;regular&quot;</span>)
 
 <span class="co"># transform gdp in euros</span>
-nuts3.df<span class="op">$</span>gdp &lt;-<span class="st"> </span>nuts3.df<span class="op">$</span>gdppps2008 <span class="op">*</span><span class="st"> </span><span class="fl">1e+06</span>
-<span class="co"># Compute data for the grid layer</span>
-df1 &lt;-<span class="st"> </span><span class="kw">getGridData</span>(<span class="dt">x =</span> mygrid, <span class="dt">df =</span> nuts3.df, <span class="dt">var =</span> <span class="st">&quot;pop2008&quot;</span>)
-df2 &lt;-<span class="st"> </span><span class="kw">getGridData</span>(<span class="dt">x =</span> mygrid, <span class="dt">df =</span> nuts3.df, <span class="dt">var =</span> <span class="st">&quot;gdp&quot;</span>)
-df1<span class="op">$</span>gdp &lt;-<span class="st"> </span>df2<span class="op">$</span>gdp
+mygrid<span class="op">$</span>gdppps2008 &lt;-<span class="st"> </span>mygrid<span class="op">$</span>gdppps2008 <span class="op">*</span><span class="st"> </span><span class="fl">1e+06</span>
 
 <span class="co"># list of breaks</span>
 v &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2920</span>, <span class="dv">5000</span>, <span class="dv">10000</span>, <span class="dv">15000</span>, <span class="dv">20000</span>, <span class="dv">23500</span>, <span class="dv">30000</span>, <span class="dv">35000</span>, <span class="dv">40000</span>, <span class="dv">42720</span>)
@@ -928,13 +907,13 @@ v &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2920<
 cols &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rev</span>(<span class="kw">carto.pal</span>(<span class="st">&quot;green.pal&quot;</span>, <span class="dv">5</span>)), <span class="kw">carto.pal</span>(<span class="st">&quot;orange.pal&quot;</span>, <span class="dv">4</span>))
 
 <span class="co"># compute &amp; display the potential map</span>
-<span class="kw">smoothLayer</span>(<span class="dt">spdf =</span> mygrid<span class="op">$</span>spdf, <span class="dt">df =</span> df1, 
-            <span class="dt">var =</span> <span class="st">&quot;gdp&quot;</span>, <span class="dt">var2 =</span> <span class="st">&quot;pop2008&quot;</span>, <span class="dt">breaks =</span> v, 
-    <span class="dt">span =</span> <span class="fl">1e+05</span>, <span class="dt">beta =</span> <span class="dv">2</span>, <span class="dt">mask =</span> nuts0.spdf, 
-    <span class="dt">resolution =</span> <span class="dv">49000</span>, <span class="dt">col =</span> cols, 
-    <span class="dt">legend.title.txt =</span> <span class="st">&quot;Potential</span><span class="ch">\n</span><span class="st">GDP per capita</span><span class="ch">\n</span><span class="st">(in euros)&quot;</span>, 
-    <span class="dt">legend.values.rnd =</span> <span class="op">-</span><span class="dv">2</span>, 
-    <span class="dt">border =</span> <span class="st">&quot;grey80&quot;</span>, <span class="dt">lwd =</span> <span class="fl">0.5</span>, <span class="dt">add =</span> T, <span class="dt">legend.pos =</span> <span class="st">&quot;topright&quot;</span>)
+<span class="kw">smoothLayer</span>(<span class="dt">x =</span> mygrid, 
+            <span class="dt">var =</span> <span class="st">&quot;gdppps2008&quot;</span>, <span class="dt">var2 =</span> <span class="st">&quot;pop2008&quot;</span>, <span class="dt">breaks =</span> v, 
+            <span class="dt">span =</span> <span class="fl">1e+05</span>, <span class="dt">beta =</span> <span class="dv">2</span>, <span class="dt">mask =</span> nuts0.spdf, 
+            <span class="dt">resolution =</span> <span class="dv">50000</span>, <span class="dt">col =</span> cols, 
+            <span class="dt">legend.title.txt =</span> <span class="st">&quot;Potential</span><span class="ch">\n</span><span class="st">GDP per capita</span><span class="ch">\n</span><span class="st">(in euros)&quot;</span>, 
+            <span class="dt">legend.values.rnd =</span> <span class="op">-</span><span class="dv">2</span>, 
+            <span class="dt">border =</span> <span class="st">&quot;grey80&quot;</span>, <span class="dt">lwd =</span> <span class="fl">0.5</span>, <span class="dt">add =</span> T, <span class="dt">legend.pos =</span> <span class="st">&quot;topright&quot;</span>)
 
 <span class="co"># plot Europe contour</span>
 <span class="kw">plot</span>(rgeos<span class="op">::</span><span class="kw">gBuffer</span>(nuts0.spdf, <span class="ot">FALSE</span>, <span class="dv">1</span>), <span class="dt">add =</span> T, <span class="dt">col =</span> <span class="ot">NA</span>, 
@@ -942,7 +921,7 @@ cols &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">re
 
 <span class="co"># plot a layout</span>
 <span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Wealth Inequalities in Europe, 2008&quot;</span>, 
-            <span class="dt">author =</span> <span class="st">&quot;Package cartography v1.4.2&quot;</span>, 
+            <span class="dt">author =</span> <span class="st">&quot;Package cartography v2.0.2&quot;</span>, 
             <span class="dt">sources =</span> <span class="st">&quot;Source: Eurostat, 2011&quot;</span>, <span class="dt">frame =</span> <span class="ot">TRUE</span>, 
             <span class="dt">scale =</span> <span class="dv">500</span>, <span class="dt">north =</span> <span class="ot">FALSE</span>, <span class="dt">theme =</span> <span class="st">&quot;sand.pal&quot;</span>)
 
@@ -965,23 +944,50 @@ cols &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">re
 
 <span class="co">#                                                                                                         .</span></code></pre></div>
 <p></small></p>
-</section><section id="isopleth-map-1" class="slide level2">
-<h2>Isopleth map</h2>
+</section><section id="lissage-1" class="slide level2">
+<h2>Lissage</h2>
 <p><img src="img/map7.png" alt="map7" style="border:0px"/></p>
-</section><section id="section" class="slide level2">
-<h2></h2>
-<p><br/><br/><img src="img/cartomix.png" alt="science" style="width:600px;border:0px"/></p>
 </section></section>
 <section><section id="thank-you" class="titleslide slide level1" data-transition="convex-in fade-out"><h1>Thank you</h1></section><section id="thank-you-1" class="slide level2" data-transition="fade-in fade-out">
 <h2>Thank you</h2>
-<p><strong>Paper / Code / Slides</strong><br />
-<a href="https://github.com/riatelab/ReproducibleCartography/" class="uri">https://github.com/riatelab/ReproducibleCartography/</a><br />
+<p><strong>Code &amp; Présentation</strong><br />
+<a href="https://github.com/riatelab/cartographie-reproductible" class="uri">https://github.com/riatelab/cartographie-reproductible</a><br />
 <br/> <strong>cartography</strong><br />
-Github: <a href="https://github.com/Groupe-ElementR/cartography" class="uri">https://github.com/Groupe-ElementR/cartography</a><br />
+Github: <a href="https://github.com/riatelab/cartography" class="uri">https://github.com/riatelab/cartography</a><br />
 CRAN: <a href="https://cran.r-project.org/web/packages/cartography/index.html">https://cran.r-project.org/web/packages/cartography/</a><br />
 <br/> <strong>Blogs</strong><br />
 neocarto: <a href="https://neocarto.hypotheses.org/">neocarto.hypotheses.org</a><br />
 rgeomatic: <a href="https://rgeomatic.hypotheses.org/">rgeomatic.hypotheses.org</a></p>
+</section><section id="sessioninfo" class="slide level2">
+<h2>sessionInfo()</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
+<pre><code>R version 3.4.3 (2017-11-30)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Debian GNU/Linux 9 (stretch)
+
+Matrix products: default
+BLAS: /usr/lib/libblas/libblas.so.3.7.0
+LAPACK: /usr/lib/lapack/liblapack.so.3.7.0
+
+locale:
+ [1] LC_CTYPE=fr_FR.UTF-8       LC_NUMERIC=C               LC_TIME=fr_FR.UTF-8       
+ [4] LC_COLLATE=fr_FR.UTF-8     LC_MONETARY=fr_FR.UTF-8    LC_MESSAGES=fr_FR.UTF-8   
+ [7] LC_PAPER=fr_FR.UTF-8       LC_NAME=C                  LC_ADDRESS=C              
+[10] LC_TELEPHONE=C             LC_MEASUREMENT=fr_FR.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] cartography_2.0.2 sp_1.2-7          sf_0.6-0          knitr_1.19       
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_0.12.15     magrittr_1.5     units_0.5-1      lattice_0.20-35  rlang_0.1.6     
+ [6] stringr_1.2.0    udunits2_0.13    tools_3.4.3      revealjs_0.9     grid_3.4.3      
+[11] e1071_1.6-8      DBI_0.7          rgeos_0.3-26     htmltools_0.3.6  class_7.3-14    
+[16] yaml_2.1.16      rprojroot_1.3-2  digest_0.6.15    codetools_0.2-15 evaluate_0.10.1 
+[21] rmarkdown_1.8    stringi_1.1.6    compiler_3.4.3   pillar_1.1.0     backports_1.1.2 
+[26] classInt_0.1-24 </code></pre>
 </section></section>
     </div>
   </div>

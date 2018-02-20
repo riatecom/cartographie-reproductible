@@ -103,7 +103,7 @@ Simplifier les chaines de traitement pour couvrir les différentes étapes de la
 
 
 
-# Les fonctionnalités spatiales de R<br/><img src="animation.gif" alt="sf gif" style="border:0px"/>
+# Les fonctionnalités spatiales de R<br/><img src="./img/sf.gif" alt="sf gif" style="border:0px"/>
 
 
 
@@ -255,7 +255,7 @@ plot(st_geometry(mtq_v), col='lightblue')
 
 
 
-## propSymbolsLayer()
+## Symboles proportionnels
 
 <small>
 ```{r propS, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide'}
@@ -271,184 +271,205 @@ par(mar=c(0,0,0,0))
 plot(st_geometry(mtq), col = "lightblue4",
      border = "lightblue3", bg = "lightblue1")
 # Population plot on proportional symbols
-propSymbolsLayer(x = mtq, var = "P13_POP", 
+propSymbolsLayer(x = mtq, 
+                 var = "P13_POP", 
                  legend.title.txt = "Total\npopulation (2013)")
 # Title
-mtext(text = "Population in Martinique", side = 3, line = -1)
+mtext(text = "Population en Martinique", side = 3, line = -1)
 dev.off()
 #                                                                                         .
 ```
 </small>
 
 
-## Some simple maps
+## Symboles proportionnels
 
 <img src="./img/map1.png" alt="map1" style="border:0px"/>
 
-## Some simple maps
+## Carte choroplèthe
 <small>
-```{r choro, echo=TRUE, eval=FALSE, prompt=FALSE, message=FALSE, results='hide'}
-# save map
-png(filename = "img/map2.png", width = 600, height = 535, res = 100)
-par(mar = c(0,0,1.2,0))
-# compute the GDP per inhabitants
-nuts0.df$gdpinh <- nuts0.df$gdppps2008 * 1e+06/nuts0.df$pop2008
-# Plot a background layers
-plot(nuts0.spdf, border = NA, col = NA, bg = "#A6CAE0")
-plot(world.spdf, col = "#E3DEBF", border = NA, add = TRUE)
-
-# plot the gdp per inhabitant
-choroLayer(spdf = nuts0.spdf, df = nuts0.df, var = "gdpinh", 
-           col = carto.pal(pal1 = "green.pal", n1 = 4), 
-           method = "quantile", nclass = 4, border = "white", 
-           lwd = 0.5, legend.pos = "right", 
-           legend.title.txt = "GDP per inh., 2008\n(euros)", add = T)
-
-layoutLayer(title = "choroLayer()",
-            author = "Package cartography v1.4.2", 
-            sources = "Source: Eurostat, 2011", 
-            frame = FALSE, scale = NULL, theme = "green.pal", 
-            north = FALSE)
+```{r choro, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide'}
+png(filename = "img/map2.png", width = 400, height = 467, res = 100)
+# Compute the compound annual growth rate
+mtq$cagr <- (((mtq$P13_POP / mtq$P08_POP)^(1/4)) - 1) * 100
+# set margins
+par(mar=c(0,0,0,0))
+# Map plot
+choroLayer(x = mtq, 
+           var = "cagr", 
+           breaks = c(-6.14,-2,-1,0,1,2),
+           col = c("#135D89", "#4D95BA", "#96D1EA", "#FCDACA", "#EC4E49"),
+           legend.title.txt = "Compound annual\ngrowth rate")
+# Title
+mtext(text = "Evolution de la population", side = 3, line = -1)
 dev.off()
-
-
-
-
-
-
-
-
 
 
 #                                                                                                         .
 ```
 </small>
 
-## Some simple maps
-
+## Carte choroplèthe
 <img src="./img/map2.png" alt="map2" style="border:0px"/>
 
-## Some simple maps
 
-<small>
-
-```{r choroPropS, echo=TRUE, eval=FALSE, prompt=FALSE, message=FALSE, results='hide'}
-# save map
-png(filename = "img/map3.png", width = 600, height = 535, res = 100)
-par(mar = c(0,0,1.2,0))
-# Plot a background layers
-plot(nuts0.spdf, border = NA, col = NA, bg = "#A6CAE0")
-plot(world.spdf, col = "#E3DEBF", border = NA, add = TRUE)
-
-# Plot the gdp per inhabitant
-choroLayer(spdf = nuts0.spdf, df = nuts0.df, var = "gdpinh", 
-           col = carto.pal(pal1 = "sand.pal", 
-                           n1 = 4), method = "quantile", 
-           nclass = 4, border = "white", lwd = 0.5, 
-           legend.pos = "right", 
-           legend.title.txt = "GDP per inh., 2008\n(euros)", add = T)
-
-# Plot the population
-propSymbolsLayer(spdf = nuts0.spdf, df = nuts0.df, 
-                 inches = 0.2, lwd = 1.25, 
-                 var = "pop", col = NA, border = "#940000", 
-                 legend.pos = "topright", legend.values.rnd = 0, 
-                 legend.title.txt = 
-                   "Population, 2008\n(thousands of inh.)", 
-                 legend.frame = F)
-
-# layout
-layoutLayer(title = "propSymbolsLayer() + choroLayer()", 
-            author = "Package cartography v1.4.2", 
-            sources = "Source: Eurostat, 2011", 
-            scale = NULL, theme = "sand.pal", 
-            north = FALSE, frame = FALSE)
-dev.off()
+## Palettes de couleurs
 
 
+```{r pal, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.height=4}
 
-
-
-
-#                                                                                                         .
+display.carto.all(20)
 
 ```
 
+## Palettes de couleurs
+
+
+```{r pal1, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.height=4}
+
+display.carto.pal("orange.pal")
+
+```
+
+
+## Palettes de couleurs
+
+
+```{r pal2, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.height=3}
+mypal <- carto.pal(pal1 = "wine.pal", n1 = 7, pal2 = "green.pal", n2 = 12,
+                   middle = TRUE, transparency = TRUE)
+k <- length(mypal)
+image(1:k, 1, as.matrix(1:k), col=mypal, xlab = paste(k," classes",sep=""),
+      ylab = "", xaxt = "n", yaxt = "n",bty = "n")
+
+```
+
+## Discrétisations
+
+<small>
+```{r disc2, fig.height=3}
+var <- mtq$cagr
+moy <- mean(var)
+med <- median(var)
+std <- sd(var)
+# Quantile intervals
+breaks <- getBreaks(v = var, nclass = 6, method = "quantile")
+hist(var, probability = TRUE, breaks = breaks, main="quantiles",
+     col = carto.pal(pal1 = "wine.pal",3, "green.pal", 3))
+rug(var)
+abline(v = med, col = "blue", lwd = 3)
+```
 </small>
 
-## Some simple maps
+
+## Discrétisations
+
+<small>
+```{r disc3, fig.height=3}
+# Mean and standard deviation (msd)
+breaks <- getBreaks(v = var, method = "msd", k = 1, middle = TRUE)
+hist(var, probability = TRUE, breaks = breaks, main="moyenne / écart-type",
+     col = carto.pal(pal1 = "wine.pal",3 , "green.pal", 2, middle = TRUE))
+rug(var)
+abline(v = moy, col = "red", lwd = 3)
+abline(v = moy + 0.5 * std, col = "blue", lwd = 3)
+abline(v = moy - 0.5 * std, col = "blue", lwd = 3)
+```
+</small>
+
+
+## Combinaisons 
+
+<small>
+```{r choroprop, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide'}
+png(filename = "img/map3.png", width = 400, height = 467, res = 100)
+# set margins
+par(mar=c(0,0,0,0))
+# Map plot
+# Countries plot
+plot(st_geometry(mtq), col = "lightblue4",
+     border = "lightblue3", bg = "lightblue1")
+propSymbolsChoroLayer(x = mtq, var= "P13_POP", 
+                 legend.var.title.txt = "Total\npopulation (2013)",
+           var2 = "cagr", legend.var.pos = "bottomleft", 
+           breaks = c(-6.14,-2,-1,0,1,2),
+           col = c("#135D89", "#4D95BA", "#96D1EA", "#FCDACA", "#EC4E49"),
+           legend.var2.title.txt = "Compound annual\ngrowth rate")
+# Title
+mtext(text = "Evolution de la population", side = 3, line = -1)
+dev.off()
+
+
+#                                                                                                         .
+```
+</small>
+
+## Combinaisons
 
 <img src="./img/map3.png" alt="map3" style="border:0px"/>
 
-## Some simple maps
-
-<small>
-```{r propSchoro, echo=TRUE, eval=FALSE, prompt=FALSE, message=FALSE, results='hide'}
-# save map
-png(filename = "img/map4.png", width = 600, height = 535, res = 100)
-par(mar = c(0,0,1.2,0))
-# Plot a background layers
-plot(nuts0.spdf, border = NA, col = NA, bg = "#A6CAE0")
-plot(world.spdf, col = "#E3DEBF", border = NA, add = TRUE)
-plot(nuts0.spdf, col = "#EAE797", border = "white", lwd = 0.5, 
-     add = TRUE)
-
-# Plot symbols with choropleth coloration
-propSymbolsChoroLayer(spdf = nuts0.spdf, df = nuts0.df, 
-                      var = "pop", inches = 0.3, 
-                      var2 = "gdpinh", 
-                      col = carto.pal(pal1 = "blue.pal", n1 = 4), 
-                      symbols = "square", 
-                      method = "quantile", nclass = 4, 
-                      border = "grey50", 
-                      lwd = 0.5, legend.var.pos = "topright", 
-                      legend.var.values.rnd = 0, 
-                      legend.var.style = "e", 
-                      legend.var2.pos = "right", 
-                      legend.var2.values.rnd = 0,
-                      legend.var.title.txt = 
-                        "Population, 2008\n(thousands of inh.)",
-                      legend.var2.title.txt = 
-                        "GDP per inh., 2008\n(euros)")
 
 
-# layout
-layoutLayer(title = "propSymbolsChoroLayer()", 
-            author = "Package cartography v1.4.2", 
-            sources = "Source: Eurostat, 2011",
-            frame = FALSE, 
-            theme = "blue.pal", scale = 500, north = FALSE)
+## Labels
+
+```{r labs, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide'}
+png(filename = "img/map4.png", width = 400, height = 467, res = 100)
+# set margins
+par(mar=c(0,0,0,0))
+plot(st_geometry(mtq), col = "darkseagreen3", 
+     border = "darkseagreen4", 
+     bg = "#A6CAE0")
+labelLayer(x = mtq, txt = "LIBGEO", col= "black", cex = 0.7, font = 4,
+           halo = TRUE, bg = "white", r = 0.1, 
+           overlap = FALSE, show.lines = FALSE)
 dev.off()
 
-
-
-
-
-
-#                                                                                                         .
 ```
-</small>
 
 
-## Some simple maps
+## Labels
 
-<img src="./img/map4.png" alt="map4" style="border:0px"/>
+<img src="./img/map4.png" alt="map3" style="border:0px"/>
 
 
-## Gridded Map
+
+
+
+## Tuiles OpenStreetMap
+
+```{r osm, echo=TRUE, eval=FALSE, prompt=FALSE, message=FALSE, results='hide'}
+png(filename = "img/map4bis.png", width = 400, height = 467, res = 100)
+# set margins
+par(mar=c(0,0,0,0))
+tiles <- getTiles(x = mtq, type = "osm", crop=T)
+tilesLayer(tiles)
+plot(st_geometry(mtq), add=T)
+dev.off()
+
+```
+
+
+## Tuiles OpenStreetMap
+
+<img src="./img/map4bis.png" alt="map3" style="border:0px"/>
+
+
+
+
+
+## Carte carroyée
 
 <small>
 ```{r grid, echo=TRUE, eval=FALSE, prompt=FALSE, message=FALSE, results='hide'}
+library(cartography)
+data(nuts2006)
+nuts3.spdf@data = nuts3.df
 # Create a grid layer
-mygrid <- getGridLayer(spdf = nuts3.spdf, cellsize = 1e+05, 
-                       type = "hexagonal")
-# Compute data for the grid layer
-df1 <- getGridData(x = mygrid, df = nuts3.df, var = "pop2008")
-df2 <- getGridData(x = mygrid, df = nuts3.df, var = "pop1999")
-
+mygrid <- getGridLayer(x = nuts3.spdf, cellsize = 100000 * 100000, 
+                       type = "hexagonal", var = c("pop1999","pop2008"))
 # Compute the compound annual growth rate
-df1$cagr <- (((df1$pop2008/df2$pop1999)^(1/9)) - 1) * 100
-v <- getBreaks(v = df1$cagr, method = "quantile", nclass = 10)
+mygrid$cagr <- (((mygrid$pop2008/mygrid$pop1999)^(1/9)) - 1) * 100
+v <- getBreaks(v = mygrid$cagr, method = "quantile", nclass = 10)
 v[5] <- 0
 
 # set a color palette
@@ -456,17 +477,15 @@ cols <- c("#f18b61", "#f7b48c", "#f3d9b7", "#f1eccd",
           "#c0dec2", "#91caa4", "#63b285", "#329966", 
           "#26734d", "#1a4c33")
 
-
 # save the map in png format
 png(filename = "img/map5.png", width = 600, height = 535, res = 100)
 par(mar = c(0, 0, 1.2, 0))
-
 # Plot a background layers
 plot(nuts0.spdf, border = NA, col = NA, bg = "#A6CAE0")
 plot(world.spdf, col = "#CCCCCC", border = NA, add = TRUE)
 
 # plot the choropleth grid
-choroLayer(spdf = mygrid$spdf, df = df1, var = "cagr", add = TRUE, 
+choroLayer(x = mygrid, var = "cagr", add = TRUE, 
            col = cols, lwd = 0.6, border = "#FFFFFF60", 
            legend.pos = "right", breaks = v, legend.values.rnd = 2, 
            legend.title.txt = "Compound Annual\nGrowth Rate")
@@ -476,13 +495,10 @@ plot(nuts0.spdf, add = T, col = NA, border = "#56514c", lwd = 0.7)
 
 # Plot a layout
 layoutLayer(title = "Demographic Trends, 1999-2008", 
-            author = "Package cartography v1.4.2", 
+            author = "Package cartography v2.0.2", 
             sources = "Source: Eurostat, 2011", frame = TRUE, 
             scale = 500, north = TRUE, theme = "taupe.pal")
 dev.off()
-
-
-
 
 
 
@@ -490,18 +506,17 @@ dev.off()
 ```
 </small>
 
-## Gridded Map
+## Carte carroyée
 
 <img src="./img/map5.png" alt="map5" style="border:0px"/>
 
 
 
-## Discontinuities map
-
+## Carte de discontinuités
 <small>
 ```{r disc, echo=TRUE, eval=FALSE, prompt=FALSE, message=FALSE, results='hide'}
 # Get a SpatialLinesDataFrame of countries borders
-nuts2.contig <- getBorders(nuts2.spdf)
+nuts2.contig <- getBorders(x = nuts2.spdf)
 nuts2.df$gdpcap <- nuts2.df$gdppps2008/nuts2.df$pop2008 * 1e+06
 
 # save the map in png format
@@ -521,7 +536,7 @@ choroLayer(spdf = nuts2.spdf, df = nuts2.df, var = "gdpcap",
            legend.title.txt = "GDP per Capita\n(in euros)")
 
 # Plot discontinuities
-discLayer(spdf = nuts2.contig, df = nuts2.df, 
+discLayer(x = nuts2.contig, df = nuts2.df, 
           var = "gdpcap", type = "rel", 
           method = "equal", nclass = 3, threshold = 0.4, 
           sizemin = 0.7, sizemax = 6, col = "red", 
@@ -531,9 +546,10 @@ discLayer(spdf = nuts2.contig, df = nuts2.df,
 
 # Layout
 layoutLayer(title = "Wealth Disparities in Europe, 2008", 
-            author = "Package cartography v1.4.2", 
+            author = "Package cartography v2.0.2", 
             sources = "Source: Eurostat, 2011", frame = TRUE, 
             scale = 500, north = FALSE, theme = "grey.pal")
+north(pos="topleft")
 dev.off()
 
 
@@ -547,24 +563,22 @@ dev.off()
 </small>
 
 
-## Discontinuities map
+## Carte de discontinuités
 
 <img src="./img/map6.png" alt="map6" style="border:0px"/>
 
 
-## Isopleth map
+## Lissage
 
 <small>
 ```{r smooth, echo=TRUE, eval=FALSE, prompt=FALSE, message=FALSE, results='hide'}
 # Create a grid layer
-mygrid <- getGridLayer(spdf = nuts3.spdf, cellsize = 50000, type = "regular")
+nuts3.spdf@data = nuts3.df
+mygrid <- getGridLayer(x = nuts3.spdf, var = c("pop2008", "gdppps2008"),
+                       cellsize = 50000 * 50000, type = "regular")
 
 # transform gdp in euros
-nuts3.df$gdp <- nuts3.df$gdppps2008 * 1e+06
-# Compute data for the grid layer
-df1 <- getGridData(x = mygrid, df = nuts3.df, var = "pop2008")
-df2 <- getGridData(x = mygrid, df = nuts3.df, var = "gdp")
-df1$gdp <- df2$gdp
+mygrid$gdppps2008 <- mygrid$gdppps2008 * 1e+06
 
 # list of breaks
 v <- c(2920, 5000, 10000, 15000, 20000, 23500, 30000, 35000, 40000, 42720)
@@ -582,13 +596,13 @@ plot(world.spdf, col = "#E3DEBF", border = NA, add = TRUE)
 cols <- c(rev(carto.pal("green.pal", 5)), carto.pal("orange.pal", 4))
 
 # compute & display the potential map
-smoothLayer(spdf = mygrid$spdf, df = df1, 
-            var = "gdp", var2 = "pop2008", breaks = v, 
-    span = 1e+05, beta = 2, mask = nuts0.spdf, 
-    resolution = 49000, col = cols, 
-    legend.title.txt = "Potential\nGDP per capita\n(in euros)", 
-    legend.values.rnd = -2, 
-    border = "grey80", lwd = 0.5, add = T, legend.pos = "topright")
+smoothLayer(x = mygrid, 
+            var = "gdppps2008", var2 = "pop2008", breaks = v, 
+            span = 1e+05, beta = 2, mask = nuts0.spdf, 
+            resolution = 50000, col = cols, 
+            legend.title.txt = "Potential\nGDP per capita\n(in euros)", 
+            legend.values.rnd = -2, 
+            border = "grey80", lwd = 0.5, add = T, legend.pos = "topright")
 
 # plot Europe contour
 plot(rgeos::gBuffer(nuts0.spdf, FALSE, 1), add = T, col = NA, 
@@ -596,7 +610,7 @@ plot(rgeos::gBuffer(nuts0.spdf, FALSE, 1), add = T, col = NA,
 
 # plot a layout
 layoutLayer(title = "Wealth Inequalities in Europe, 2008", 
-            author = "Package cartography v1.4.2", 
+            author = "Package cartography v2.0.2", 
             sources = "Source: Eurostat, 2011", frame = TRUE, 
             scale = 500, north = FALSE, theme = "sand.pal")
 
@@ -622,15 +636,9 @@ dev.off()
 </small>
 
 
-## Isopleth map
+## Lissage
 
 <img src="./img/map7.png" alt="map7" style="border:0px"/>
-
-
-
-##
-
-<br/><br/><img src="./img/cartomix.png" alt="science" style="width:600px;border:0px"/>
 
 
 
@@ -638,16 +646,23 @@ dev.off()
 
 
 ## Thank you {data-transition="fade-in fade-out"}
-**Paper / Code / Slides**  
-https://github.com/riatelab/ReproducibleCartography/  
+**Code & Présentation**  
+https://github.com/riatelab/cartographie-reproductible  
 <br/>
 **cartography**  
-Github: [https://github.com/Groupe-ElementR/cartography](https://github.com/Groupe-ElementR/cartography)  
+Github: [https://github.com/riatelab/cartography](https://github.com/riatelab/cartography)  
 CRAN: [https://cran.r-project.org/web/packages/cartography/](https://cran.r-project.org/web/packages/cartography/index.html)  
 <br/>
 **Blogs**  
 neocarto: [neocarto.hypotheses.org](https://neocarto.hypotheses.org/)   
 rgeomatic: [rgeomatic.hypotheses.org](https://rgeomatic.hypotheses.org/)
+
+## sessionInfo()
+
+
+```{r}
+sessionInfo()
+```
 
 
 

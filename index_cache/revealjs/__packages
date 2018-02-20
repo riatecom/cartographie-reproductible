@@ -1,7 +1,5 @@
 base
 knitr
+sf
 sp
 cartography
-SpatialPosition
-raster
-sf
