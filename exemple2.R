@@ -249,7 +249,7 @@ north(pos = "topleft", south = TRUE)
 
 
 
-
+# Grid map
 grid <- getGridLayer(x = dep69, cellsize = 3000*3000, 
                      type = "hexagonal", var = c('cad', 'act'))
 grid$pcad <- 100*grid$cad/grid$act
@@ -265,6 +265,7 @@ layoutLayer(title = "Les cadres",
 north(pos = "topleft", south = TRUE)
 
 
+# Smooth Map
 grid$cad100 <- grid$cad * 100
 smoothLayer(x = grid, var = "cad100", var2 = "act", typefct = "exponential", 
                  span = 2500, beta = 2, breaks = bks, col = cols,
