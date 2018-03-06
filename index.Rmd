@@ -642,10 +642,10 @@ dev.off()
 
 
 
-# Thank you {data-transition="convex-in fade-out"}
+# Merci {data-transition="convex-in fade-out"}
 
 
-## Thank you {data-transition="fade-in fade-out"}
+## Merci {data-transition="fade-in fade-out"}
 **Code & Présentation**  
 https://github.com/riatelab/cartographie-reproductible  
 <br/>
