@@ -211,12 +211,12 @@ layoutLayer(title = "Ouvriers vs. Cadres",
 par(mar=c(0,0,1.2,0), bg="grey95", mfrow=c(1,1))
 plot(st_geometry(dep69), col="lightblue", border="ivory")
 propSymbolsTypoLayer(dep69, var = "act",var2="dom", 
-          legend.var2.values.order = c("Plus d'ouvriers que de cadres", 
-                                  "Plus de cadres que d'ouvriers",
-                                  "Indéterminé" ),
-          col = c('darkred', 'darkblue', 'grey'), inches = 0.45,
-          legend.var.title.txt = "Nb. actifs", legend.var.pos = "right",
-          border = "white", lwd=0.8, legend.var2.title.txt = "Type dominant") 
+                     legend.var2.values.order = c("Plus d'ouvriers que de cadres", 
+                                                  "Plus de cadres que d'ouvriers",
+                                                  "Indéterminé" ),
+                     col = c('darkred', 'darkblue', 'grey'), inches = 0.45,
+                     legend.var.title.txt = "Nb. actifs", legend.var.pos = "right",
+                     border = "white", lwd=0.8, legend.var2.title.txt = "Type dominant") 
 layoutLayer(title = "Ouvriers vs. Cadres", 
             sources = "", author = "", 
             col = "darkred", coltitle = "white",  postitle = "center",
@@ -268,10 +268,10 @@ north(pos = "topleft", south = TRUE)
 # Smooth Map
 grid$cad100 <- grid$cad * 100
 smoothLayer(x = grid, var = "cad100", var2 = "act", typefct = "exponential", 
-                 span = 2500, beta = 2, breaks = bks, col = cols,
-                 legend.pos = "topright", mask =dep69,
-                 legend.title.txt = "Part des cadres\n(en %)", 
-                 border = "grey90", lwd = 0.2)
+            span = 2500, beta = 2, breaks = bks, col = cols,
+            legend.pos = "topright", mask =dep69,
+            legend.title.txt = "Part des cadres\n(en %)", 
+            border = "grey90", lwd = 0.2)
 north(pos = "topleft", south = TRUE)
 layoutLayer(title = "Les cadres", 
             sources = "", author = "", theme = "green.pal", 
@@ -280,13 +280,3 @@ layoutLayer(title = "Les cadres",
 text(x = 866875, y = 6531871, 
      labels = "Lissage par potentiels\n fonction exponnentielle\n span = 2.5km, beta = 2", 
      font = 3, cex = 0.8)
-
-
-
-
-
-
-
-
-
-
